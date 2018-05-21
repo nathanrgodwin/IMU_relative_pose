@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productAdditionalComps>
+  <dependsOn>
+    <component>
+      <name>hardwaresupportpkgs/mobilesensor_fe_glnxa64</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+      </platformList>
+      <version>1505165426</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/matlab/sharedmobilesensor_glnxa64</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+      </platformList>
+      <version>1505165361</version>
+    </component>
+  </dependsOn>
+  <isControllingProduct>false</isControllingProduct>
+  <licenseAgreementType>ASLA</licenseAgreementType>
+  <platform>glnxa64</platform>
+  <productBaseCode>ML_ANDROID_SENSORS</productBaseCode>
+  <productName>MATLAB Support Package for Android Sensors</productName>
+  <productNumber>2102</productNumber>
+  <productVersion>17.1.3</productVersion>
+  <releaseDescription>R2017a</releaseDescription>
+  <releaseFamily>R2017a</releaseFamily>
+</productAdditionalComps>
+
