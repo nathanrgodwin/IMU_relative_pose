@@ -20,7 +20,7 @@ function R = quat2rotm( q )
 
 % Normalize and transpose the quaternions
 % q = robotics.internal.normalizeRows(q).';
-q = q';
+% q = q';
 
 % Reshape the quaternions in the depth dimension
 q2 = reshape(q,[4 1 size(q,2)]);

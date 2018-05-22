@@ -11,11 +11,7 @@ new_s.IPJ   = s.IPJ;
 new_s.GW    = s.GW;
 
 %GVI_0
-    diff = quadproduct(quatinv(s.GVI_1), s.GVI_0);
-    aa_diff = quat2aa(diff);
-    aa_diff = aa_diff(:,4).*dt; %scale down by dt
-    small_diff = aa2quat(aa_diff);
-new_s.GVI_0 = quatproduct(small_diff, s.GVI_0);
+new_s.GVI_0 = GVI_0 + (GVI_0 - GVI_1)/dt;
 
 new_s.GVI_1 = s.GVI_0;
 end
