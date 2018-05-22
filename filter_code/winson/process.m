@@ -5,7 +5,11 @@ dt = 1;
 new_s.GRI   = quatproduct(euler2quatern(dt*s.GW), s.GRI);
 new_s.IRJ   = s.IRJ;
 new_s.GW    = s.GW;
-new_s.GVI_0 = s.GW;
+
+difference = quadproduct(quatinv(s.GVI_1), s.GVI_0);
+aa_difference = 
+
+new_s.GVI_0 = quatproduct(s.GVI_0, )
 
 end
 
