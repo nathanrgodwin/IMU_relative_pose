@@ -17,7 +17,7 @@ end
 %W contains 2n zero-centered sigma points
 W = [W_plus, W_minus];
 
-X = zeros(23, 2*n_dim+1);
+X = zeros(20, 2*n_dim+1);
 X(:,1) = mu;
 
 for i=1:(2*n_dim)
@@ -28,7 +28,7 @@ for i=1:(2*n_dim)
     X(5:8,i+1) = aa2quat(W(4:6,i));
     X(5:8,i+1) = quatproduct(mu(5:8),X(5:8,i+1));
     %add mean to other elements normally
-    X(9:end,i+1) = mu(9:end) + W(9:end,i+1);
+    X(9:end,i+1) = mu(9:end) + W(7:end,i);
 end 
 
 end

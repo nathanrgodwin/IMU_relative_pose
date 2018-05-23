@@ -17,11 +17,11 @@ for t = 1:maxT
         w_err(:,i) = quat2aa(quat_err(:,i));
         %restrict -pi to pi
         if isnan(norm(w_err(:,i)))
-            print('norm is nan');
-            w_err(:,i) = zeros(3);
+            fprintf('norm is nan\n');
+            w_err(:,i) = zeros(3,1);
         elseif norm(w_err(:,i)) == 0
-            print('norm is zero');
-            w_err(:,i) = zeros(3);            
+            fprintf('norm is zero\n');
+            w_err(:,i) = zeros(3,1);            
         else
             w_err(:,i) = (-pi + mod(norm(w_err(:,i)) + pi,2*pi))*w_err(:,i)/norm(w_err(:,i));
         end     

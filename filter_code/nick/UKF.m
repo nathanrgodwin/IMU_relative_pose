@@ -1,6 +1,6 @@
 clear all
 close all
-
+gen_data
 %% states
 % 1: G_R_I = 4x1 quat
 % 2: I_R_J = 4x1 quat
@@ -16,13 +16,13 @@ n_sigma_points = n_state_vect*2+1;
 n_meas = 18; %ai,aj,wi,wj,GRI,GRJ
 [n_steps,~] = size(data);
 
-dt = t(2) - t(1);
+% dt = t(2) - t(1);
 
-g_quat = [0;0;0;1];%gravity vector, units of g 
+% g_quat = [0;0;0;1];%gravity vector, units of g 
 
 %estimates
 x_hat = zeros(n_state,n_steps);
-x_hat(:,1) = [1 0 0 0,1 0 0 0,1 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
+x_hat(:,1) = [1 0 0 0,1 0 0 0,1 0 0,0 0 0, 0 0 0, 0 0 0]';
 P_hat = zeros(n_state_vect,n_state_vect,n_steps);
 P_hat(:,:,1) = .001*eye(n_state_vect);
 
@@ -63,11 +63,11 @@ alpha_cov = .5; % or 2
 for i = 1: n_steps
     %PREDICTION
     X = gen_sigma_points(x_hat(:,i),P_hat(:,:,i) + Q); 
-    Y = process_a(X,x_hat(:,i));
-    [x_ap(:,i), P_ap(:,:,i), W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hat(:,:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
+    Y = process_a(X);
+    [x_ap(:,i), P_ap(:,:,i), W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hat(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE
-    Z = measurement_h(Y,x_hat);% measurement model h to get sigma points from Y
+    Z = measurement_h(Y);% measurement model h to get sigma points from Y
     [z_ap(:,i+1), P_zz(:,:,i+1)] = Z_stats(Z,alpha_mu,alpha_cov);
     
     nu(:,i+1) = z(:,i+1) - z_ap(:,i+1);

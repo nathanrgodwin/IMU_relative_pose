@@ -25,16 +25,17 @@
 
 %testing functions
 % aas = [flipud(eye(3)); [pi/3, pi/6, -pi/12]]
-% orients_q = aa2quat(aas)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
+aas = diag([pi/3, pi/6, -pi/12])
+orients_q = aa2quat(aas)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
 
 % state = new_state();
 % state.GW = [0; 0; 0.2];
 
-state = vector2state(process(state2vector(state)))
-state2vector(state)
+% state = vector2state(process(state2vector(state)))
+% state2vector(state)

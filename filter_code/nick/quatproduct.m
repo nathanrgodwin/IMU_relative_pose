@@ -1,5 +1,6 @@
 function [ q ] = quatproduct( n1, n2 )
-%columns
+%UNTITLED6 Summary of this function goes here
+%   each row is a quaternion
 n1 = n1';
 n2 = n2';
 
@@ -21,3 +22,4 @@ k = (a1.*d2 + b1.*c2 - c1.*b2 + d1.*a2);
 q = [o, i, j, k];
 q = q';
 end
+

@@ -1,4 +1,4 @@
-function [ mu, cov, W_prime ] = Y_stats( Y, alpha_mu, alpha_cov, mu_0))
+function [ mu, cov, W_prime ] = Y_stats( Y, alpha_mu, alpha_cov, mu_0)
 %mu_0 is an initial guess
 %check weights later
 %change to account for state difference: only 2 quats
