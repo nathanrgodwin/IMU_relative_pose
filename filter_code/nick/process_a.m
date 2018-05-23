@@ -1,5 +1,5 @@
-function [ Y ] = process_a( X, x_hat )
-%sigma_points X and state x_hat
+function [ Y ] = process_a( X )
+%sigma_points X
 %output sigma points Y
 
 end
