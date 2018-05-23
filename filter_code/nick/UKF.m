@@ -34,11 +34,11 @@ P_ap = zeros(n_state_vect,n_state_vect,n_steps);
 z = data;
 
 % expected measurement z at t 
-z_ap = zeros(n_meas+2,n_steps); %plus 2 because quats
+z_ap = zeros(n_meas,n_steps); 
 P_zz = zeros(n_meas,n_meas,n_steps);
 
 %innovation nu = z - z_ap
-nu = zeros(n_meas+2,n_steps);
+nu = zeros(n_meas,n_steps);
 P_nu = zeros(n_meas,n_meas,n_steps);
 
 P_xz = zeros(n_meas,n_meas,n_steps); % cross corr 
@@ -75,9 +75,15 @@ for i = 1: n_steps
     P_xz(:,:,i+1) = cross_stats(W_prime,Z,alpha_mu,alpha_cov);
     K(:,:,i+1) = P_xz(:,:,i+1)*P_nu(:,:,i+1)^-1;
     % x_k|k = x_ap + K*nu
-    x_hat(1:4,i+1) = quatproduct( x_ap(1:4,i+1), aa2quat(K(1:4,1:4,i+1)*nu(1:4,i+1)) );
-    x_hat(5:8,i+1) = quatproduct( x_ap(5:8,i+1), aa2quat(K(5:8,5:8,i+1)*nu(5:8,i+1)) );
-    x_hat(9:end,i+1) = x_ap(9:end) + K(9:end,9:end,i+1)*nu(9:end,i+1);
+    Kv = K(:,:,i+1)*nu(:,i+1);
+    
+    x_hat(1:4,i+1) = quatproduct(x_ap(1:4,i+1), aa2quat(Kv(1:3)));
+    x_hat(5:8,i+1) = quatproduct(x_ap(5:8,i+1), aa2quat(Kv(4:6)));
+
+    x_hat(9:end,i+1) = x_ap(9:end,i+1) + Kv(7:end);
+%     x_hat(1:4,i+1) = quatproduct( x_ap(1:4,i+1), aa2quat(K(1:4,1:4,i+1)*nu(1:3,i+1)) );
+%     x_hat(5:8,i+1) = quatproduct( x_ap(5:8,i+1), aa2quat(K(5:8,5:8,i+1)*nu(5:8,i+1)) );
+%     x_hat(9:end,i+1) = x_ap(9:end) + K(9:end,9:end,i+1)*nu(9:end,i+1);
     %P = P_ap - K*P_nu*K'
     P_hat(:,:,i+1) = P_ap(:,:,i+1) - K(:,:,i+1)*P_nu(:,:,i+1)*K(:,:,i+1)';    
 end 
