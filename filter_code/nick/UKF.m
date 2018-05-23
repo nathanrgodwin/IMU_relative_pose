@@ -14,7 +14,7 @@ n_state = 20;
 n_state_vect = n_state - 2; %since 2 quats --> vect
 n_sigma_points = n_state_vect*2+1;
 n_meas = 18; %ai,aj,wi,wj,GRI,GRJ
-[n_steps,~] = size(data);
+n_steps= size(data,2);
 
 % dt = t(2) - t(1);
 
@@ -34,11 +34,11 @@ P_ap = zeros(n_state_vect,n_state_vect,n_steps);
 z = data;
 
 % expected measurement z at t 
-z_ap = zeros(n_meas,n_steps);
+z_ap = zeros(n_meas+2,n_steps); %plus 2 because quats
 P_zz = zeros(n_meas,n_meas,n_steps);
 
 %innovation nu = z - z_ap
-nu = zeros(n_meas,n_steps);
+nu = zeros(n_meas+2,n_steps);
 P_nu = zeros(n_meas,n_meas,n_steps);
 
 P_xz = zeros(n_meas,n_meas,n_steps); % cross corr 
@@ -46,7 +46,7 @@ K = zeros(n_meas,n_meas,n_steps); % kalman gain
 
 X = zeros(n_state,n_sigma_points);%sigma points for x_hat
 Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
-Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
+% Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
@@ -68,7 +68,7 @@ for i = 1: n_steps
     
     %UPDATE
     Z = measurement_h(Y);% measurement model h to get sigma points from Y
-    [z_ap(:,i+1), P_zz(:,:,i+1)] = Z_stats(Z,alpha_mu,alpha_cov);
+    [z_ap(:,i+1), P_zz(:,:,i+1)] = Z_stats(Z,alpha_mu,alpha_cov, z_ap(:,i));
     
     nu(:,i+1) = z(:,i+1) - z_ap(:,i+1);
     P_nu(:,:,i+1) = P_zz(:,:,i+1) + R;
