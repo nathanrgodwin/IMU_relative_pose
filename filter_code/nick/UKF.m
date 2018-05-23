@@ -51,7 +51,7 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
 q = 1;
-r = 1;
+r = 10;
 Q = q*eye(n_state_vect);
 R = r*eye(n_state_vect); 
 
@@ -64,7 +64,8 @@ for i = 1: n_steps
     %PREDICTION
     X = gen_sigma_points(x_hat(:,i),P_hat(:,:,i) + Q); 
     Y = process_a(X);
-    [x_ap(:,i), P_ap(:,:,i), W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hat(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
+    [x_ap(:,i+1), P_ap(:,:,i+1), W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hat(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
+        %   ^ Winson changed i to i+1
     
     %UPDATE
     Z = measurement_h(Y);% measurement model h to get sigma points from Y

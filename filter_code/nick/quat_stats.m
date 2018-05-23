@@ -32,11 +32,11 @@ for t = 1:maxT
     if norm(w_err_mean) < err_norm_min %compute covariance
         covar = zeros(3,3);
         for i=2:n_quats
-            A = w_err(:,i)';
+            A = w_err(:,i);%changed transpose --wq
             covar = covar + A*A';
         end 
         covar = covar/(2*n_quats);
-        A = w_err(:,1)';
+        A = w_err(:,1);    %change transpose --wq
         covar = covar + alpha_cov*(A*A');
         mu = mu_quats;
         cov = covar;

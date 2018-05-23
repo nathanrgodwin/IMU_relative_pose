@@ -20,7 +20,11 @@ n = sqrt(x.^2 + y.^2 + z.^2);   %should be 1
 i = x./n .* sin(t/2);
 j = y./n .* sin(t/2);
 k = z./n .* sin(t/2);
+
 q = [o, i, j, k];
+
+q(isnan(q)) = 0;
+
 q = q';
 end
 
