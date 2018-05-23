@@ -1,4 +1,4 @@
-function q = euler2quatern(phi, theta, psi)
+function q = euler2quatern(eul)
 %EULER2QUATERN Converts a ZYX Euler angle orientation to a quaternion
 %
 %   q = euler2quatern(axis, angle)
@@ -11,7 +11,10 @@ function q = euler2quatern(phi, theta, psi)
 %
 %	Date          Author          Notes
 %	01/01/2015    SOH Madgwick    Initial release
-
+phi = eul(1,:);
+theta = eul(2,:);
+psi = eul(3,:);
+% phi, theta, psi
     cosPsi = cos(psi * 0.5);
     sinPsi = sin(psi * 0.5);
 
