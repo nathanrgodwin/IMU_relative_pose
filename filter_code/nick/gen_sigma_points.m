@@ -11,7 +11,7 @@ W_minus = zeros(n_dim);
 
 for i = 1:n_dim
     W_plus(:,i) = sqrt(n_dim)*S(:,i);
-    W_minus(:,i) = sqrt(n_dim)*S(:,i);
+    W_minus(:,i) = -sqrt(n_dim)*S(:,i); %haha check git history
 end 
 
 %W contains 2n zero-centered sigma points

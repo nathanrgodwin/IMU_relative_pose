@@ -5,7 +5,7 @@ function [ mv ] = measurement_model( sv )
 ss = vector2state(sv);
 ms = new_meas();
 
-dt = 1;
+dt = 0.1;
 g = 9.8;
 
 

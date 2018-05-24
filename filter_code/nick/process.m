@@ -4,7 +4,7 @@ function [ new_sv ] = process( ss )
 %   input--     s       =   (t) state
 %   output--    new_s   =   (t+1) state
 s = vector2state(ss);
-dt = 1;
+dt = 0.1;
 
 new_s.GRI   = quatproduct(euler2quatern(dt*s.GW), s.GRI);
 new_s.IRJ   = s.IRJ;

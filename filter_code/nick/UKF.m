@@ -22,7 +22,7 @@ n_steps= size(data,2);
 
 %estimates
 x_hat = zeros(n_state,n_steps);
-x_hat(:,1) = [1 0 0 0,1 0 0 0,1 0 0,0 0 0, 0 0 0, 0 0 0]';
+x_hat(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
 P_hat = zeros(n_state_vect,n_state_vect,n_steps);
 P_hat(:,:,1) = .001*eye(n_state_vect);
 
@@ -51,7 +51,7 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
 q = 1;
-r = 10;
+r = 1;
 Q = q*eye(n_state_vect);
 R = r*eye(n_state_vect); 
 

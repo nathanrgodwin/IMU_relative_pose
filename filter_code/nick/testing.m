@@ -40,14 +40,20 @@
 % state = vector2state(process(state2vector(state)))
 % state2vector(state)
 
+% rng('default');
+% q = randn(4,8);
+% q(:,2) = [1 0 0 0]';
+% q(:,3) = [1 realmin realmin -realmin]';
+% q
+% a = quat2aa(q)
+% q = aa2quat(a)
+% a = quat2aa(q)
+% q = aa2quat(a)
+% a = quat2aa(q)
+% q = aa2quat(a)
+
+
+
 rng('default');
-q = randn(4,8);
-q(:,2) = [1 0 0 0]';
-q(:,3) = [1 realmin realmin -realmin]';
-q
-a = quat2aa(q)
-q = aa2quat(a)
-a = quat2aa(q)
-q = aa2quat(a)
-a = quat2aa(q)
-q = aa2quat(a)
+D = randn(12,20);
+vect_stats(D,1,1)
