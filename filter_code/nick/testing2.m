@@ -27,7 +27,7 @@ z_idx = (16:18);
 quat2aa(Y(y_idx, w_idx))
 Z(z_idx, w_idx)
 
-quat_stats(Y(y_idx, w_idx), 1, 1, [1 0 0 0]')
+quat_stats(Y(y_idx, w_idx), 1, 1, aa2quat([0.001 0.1 0]'))
 
 % [x_ap, P_ap, W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hatM(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
 
