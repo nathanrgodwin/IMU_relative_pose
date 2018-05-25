@@ -14,6 +14,7 @@ end
 A = (X(:,1) - mu);
 covar = (covar + alpha_cov*(A*A'))/n_vects;
 
+
 end
 
 % %version 2 --wq

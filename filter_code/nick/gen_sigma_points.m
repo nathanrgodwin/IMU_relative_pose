@@ -4,6 +4,17 @@ function [ X ] = gen_sigma_points(mu,covar)
 %instead of 4 
 
 [~,n_dim] = size(covar); % 18 
+
+% [U,S,V] = svd(covar);
+% if any(S<=0)
+%     S(S<=0) = 0;
+%     covar = U*S*V';
+% end
+
+% covar([1:18]+18.*(0:17)) = covar([1:18]+18.*(0:17)) + 1e300*realmin;
+% covar([1:18]+18.*(0:17)) = covar([1:18]+18.*(0:17)) + 1e10*realmin;
+
+
 S = chol(covar,'lower')';
 
 W_plus = zeros(n_dim);

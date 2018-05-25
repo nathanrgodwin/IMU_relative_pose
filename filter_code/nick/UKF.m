@@ -61,11 +61,11 @@ alpha_mu = .5; %or 0
 alpha_cov = .5; % or 2 
 
 for i = 1: n_steps
+    i
     %PREDICTION
     X = gen_sigma_points(x_hat(:,i),P_hat(:,:,i) + Q); 
     Y = process_a(X);
     [x_ap(:,i+1), P_ap(:,:,i+1), W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hat(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
-        %   ^ Winson changed i to i+1
     
     %UPDATE
     Z = measurement_h(Y);% measurement model h to get sigma points from Y
@@ -74,9 +74,11 @@ for i = 1: n_steps
     nu(:,i+1) = z(:,i+1) - z_ap(:,i+1);
     P_nu(:,:,i+1) = P_zz(:,:,i+1) + R;
     P_xz(:,:,i+1) = cross_stats(W_prime,Z,alpha_mu,alpha_cov);
-    K(:,:,i+1) = P_xz(:,:,i+1)*P_nu(:,:,i+1)^-1;
+    K(:,:,i+1) = P_xz(:,:,i+1)*inversePD(P_nu(:,:,i+1));
     % x_k|k = x_ap + K*nu
     Kv = K(:,:,i+1)*nu(:,i+1);
+%     Kv = P_xz(:,:,i+1)*P_nu(:,:,i+1)\nu(:,i+1);
+
     
     x_hat(1:4,i+1) = quatproduct(x_ap(1:4,i+1), aa2quat(Kv(1:3)));
     x_hat(5:8,i+1) = quatproduct(x_ap(5:8,i+1), aa2quat(Kv(4:6)));
@@ -87,9 +89,22 @@ for i = 1: n_steps
 %     x_hat(9:end,i+1) = x_ap(9:end) + K(9:end,9:end,i+1)*nu(9:end,i+1);
     %P = P_ap - K*P_nu*K'
     P_hat(:,:,i+1) = P_ap(:,:,i+1) - K(:,:,i+1)*P_nu(:,:,i+1)*K(:,:,i+1)';    
+%      P_hat(:,:,i+1) = P_ap(:,:,i+1) - P_xz(:,:,i+1)*(P_nu(:,:,i+1)')\(P_xz(:,:,i+1)');    
 end 
 
 %% plot results 
 
 axis_len = 1;
 axis_tips = axis_len*eye(3);
+
+
+function A_=inversePD(A)
+%A:positive definite matrix
+M=size(A,1);
+[R b] = chol(A);
+if b~=0
+    return
+end
+R_ = R \ eye(M);
+A_ = R_ * R_';
+end
