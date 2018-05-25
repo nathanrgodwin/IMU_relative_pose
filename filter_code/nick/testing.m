@@ -24,15 +24,15 @@
 % quat_result = quatproduct(quatproduct(new_orientation_quat, [0; test_point]'), quaternConj(new_orientation_quat))
 
 %testing functions
-% aas = [flipud(eye(3)); [pi/3, pi/6, -pi/12]]
-% aas = diag([pi/3, pi/6, -pi/12])
-% orients_q = aa2quat(aas)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
-% orients_a = quat2aa(orients_q)
-% orients_q = aa2quat(orients_a)
+aas = [flipud(eye(3)); [pi/3, pi/6, -pi/12]]
+aas = diag([pi/3, pi/6, -pi/12])
+orients_q = aa2quat(aas)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
+orients_a = quat2aa(orients_q)
+orients_q = aa2quat(orients_a)
 
 % state = new_state();
 % state.GW = [0; 0; 0.2];
@@ -53,7 +53,7 @@
 % q = aa2quat(a)
 
 
-
-rng('default');
-D = randn(12,20);
-vect_stats(D,1,1)
+% 
+% rng('default');
+% D = randn(12,20);
+% vect_stats(D,1,1)
