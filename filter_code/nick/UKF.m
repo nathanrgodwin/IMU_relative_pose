@@ -57,8 +57,8 @@ R = r*eye(n_state_vect);
 
 %weights for averaging 
 
-alpha_mu = .5; %or 0
-alpha_cov = .5; % or 2 
+alpha_mu = 1; %or 0
+alpha_cov = 1; % or 2 
 
 for i = 1: n_steps
     i
@@ -76,8 +76,8 @@ for i = 1: n_steps
     P_xz = cross_stats(W_prime,Z,alpha_mu,alpha_cov);
     K = P_xz*P_nu^-1;
     % x_k|k = x_ap + K*nu
-    Kv = K*nu;
-%     Kv = P_xz*P_nu\nu;    
+%     Kv = K*nu;
+    Kv = P_xz*(P_nu\nu);    
     
     x_hat = zeros(n_state,1);
     x_hat(1:4) = quatproduct(x_ap(1:4), aa2quat(Kv(1:3)));
@@ -88,9 +88,9 @@ for i = 1: n_steps
 %     x_hat(5:8,i+1) = quatproduct( x_ap(5:8,i+1), aa2quat(K(5:8,5:8,i+1)*nu(5:8,i+1)) );
 %     x_hat(9:end,i+1) = x_ap(9:end) + K(9:end,9:end,i+1)*nu(9:end,i+1);
 
-    P_hat = P_ap - K*P_nu*K';
-%      P_hat = P_ap - P_xz*(P_nu')\(P_xz');    
-    
+%     P_hat = P_ap - K*P_nu*K';
+     P_hat = P_ap - P_xz*((P_nu')\(P_xz'));
+     
     %STORE MEMORY
     x_hatM(:,i+1) = x_hat;
     P_hatM(:,:,i+1) = P_hat;
