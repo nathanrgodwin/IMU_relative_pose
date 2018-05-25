@@ -43,9 +43,8 @@ for i=2:n_quats
     A = w_err(:,i);%changed transpose --wq
     covar = covar + A*A';
 end 
-covar = covar/(2*n_quats);
 A = w_err(:,1);    %change transpose --wq
-covar = covar + alpha_cov*(A*A');
+covar = (covar + alpha_cov*(A*A'))/n_quats;
 mu = mu_quats;
 cov = covar;
 W_prime = w_err;

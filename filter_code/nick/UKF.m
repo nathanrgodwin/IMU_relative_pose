@@ -17,10 +17,10 @@ n_meas = 18; %ai,aj,wi,wj,GRI,GRJ
 n_steps= size(data,2);
 
 % dt = t(2) - t(1);
-
 % g_quat = [0;0;0;1];%gravity vector, units of g 
 
-%estimates
+%M indicates storage variable
+%hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
 x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
@@ -50,7 +50,7 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
-q = 1;
+q = 2;
 r = 1;
 Q = q*eye(n_state_vect);
 R = r*eye(n_state_vect); 
@@ -64,16 +64,20 @@ for i = 1: n_steps
     i
     %PREDICTION
     X = gen_sigma_points(x_hatM(:,i),P_hatM(:,:,i) + Q); 
+    figure(1)
+    surf(X); xlabel('x');ylabel('y');title('X');
     Y = process_a(X);
+    figure(2)
+    surf(Y); xlabel('x');ylabel('y');title('Y');
     [x_ap, P_ap, W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hatM(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE
     Z = measurement_h(Y);% measurement model h to get sigma points from Y
-    [z_ap, P_zz] = Z_stats(Z,alpha_mu,alpha_cov, z_apM(:,i));
+    [z_ap, P_zz, Z_prime] = Z_stats(Z,alpha_mu,alpha_cov, z_apM(:,i));
     
     nu = z(:,i+1) - z_ap;
     P_nu = P_zz + R;
-    P_xz = cross_stats(W_prime,Z,alpha_mu,alpha_cov);
+    P_xz = cross_stats(W_prime,Z_prime,alpha_cov);
     K = P_xz*P_nu^-1;
     % x_k|k = x_ap + K*nu
 %     Kv = K*nu;
@@ -89,8 +93,11 @@ for i = 1: n_steps
 %     x_hat(9:end,i+1) = x_ap(9:end) + K(9:end,9:end,i+1)*nu(9:end,i+1);
 
 %     P_hat = P_ap - K*P_nu*K';
-     P_hat = P_ap - P_xz*((P_nu')\(P_xz'));
-     
+    P_hat = P_ap - P_xz*((P_nu')\(P_xz'));
+    
+    if min(eig(P_hat)) < 0
+        fprintf('non PSD P_hat');
+    end 
     %STORE MEMORY
     x_hatM(:,i+1) = x_hat;
     P_hatM(:,:,i+1) = P_hat;
