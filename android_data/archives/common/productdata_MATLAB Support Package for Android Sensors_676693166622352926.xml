@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productData>
+  <altDependencies>
+    <product>
+      <isControllingProduct>true</isControllingProduct>
+      <productBaseCode>ML</productBaseCode>
+      <productName>MATLAB</productName>
+      <productNumber>1</productNumber>
+      <productVersion>9.2</productVersion>
+      <releaseDescription>R2017a</releaseDescription>
+      <releaseFamily>R2017a</releaseFamily>
+    </product>
+  </altDependencies>
+  <dependsOn>
+    <component>
+      <name>hardwaresupportpkgs/licenses/asla_license_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1455818359</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/matlab/mobilesensor_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1505164690</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/matlab/mobilesensor_examples_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1505164702</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/mobilesensor_doc_en_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1505165556</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/matlab/sharedmobilesensor_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1505165420</version>
+    </component>
+    <component>
+      <name>hardwaresupportpkgs/matlab/mobilesensor_resources_common</name>
+      <instrset>0</instrset>
+      <locale />
+      <platformList>
+        <platform>glnxa64</platform>
+        <platform>maci64</platform>
+        <platform>win64</platform>
+      </platformList>
+      <version>1457618682</version>
+    </component>
+  </dependsOn>
+  <installerUsage>
+    <usage>professional</usage>
+  </installerUsage>
+  <isControllingProduct>false</isControllingProduct>
+  <licenseAgreementType>ASLA</licenseAgreementType>
+  <platformList>
+    <platform>glnxa64</platform>
+    <platform>maci64</platform>
+    <platform>win64</platform>
+  </platformList>
+  <productBaseCode>ML_ANDROID_SENSORS</productBaseCode>
+  <productName>MATLAB Support Package for Android Sensors</productName>
+  <productNumber>2102</productNumber>
+  <productVersion>17.1.3</productVersion>
+  <releaseDescription>R2017a</releaseDescription>
+  <releaseFamily>R2017a</releaseFamily>
+  <requiredProducts />
+</productData>
+
