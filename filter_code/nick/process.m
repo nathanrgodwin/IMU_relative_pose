@@ -12,9 +12,10 @@ new_s.IPJ   = s.IPJ;
 new_s.GW    = s.GW;
 
 %GVI_0
-new_s.GVI_0 = s.GVI_0 + (s.GVI_0 - s.GVI_1)/dt;
+%new_s.GVI_0 = s.GVI_0 + (s.GVI_0 - s.GVI_1)/dt;
+new_s.GVI_0 = s.GVI_0; %version without accel
 
-new_s.GVI_1 = s.GVI_0;
+%new_s.GVI_1 = s.GVI_0;
 
 new_sv = state2vector(new_s);
 end
