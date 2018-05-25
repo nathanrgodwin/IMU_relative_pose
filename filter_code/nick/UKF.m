@@ -10,7 +10,7 @@ gen_data
 % 6: G_V_I_0 = 3x1 translation vel
 % 7: G_V_I_neg1 = 3x1 %translation vel
 
-n_state = 20;
+n_state = 17;
 n_state_vect = n_state - 2; %since 2 quats --> vect
 n_sigma_points = n_state_vect*2+1;
 n_meas = 18; %ai,aj,wi,wj,GRI,GRJ
