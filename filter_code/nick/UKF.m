@@ -22,7 +22,8 @@ n_steps= size(data,2);
 %M indicates storage variable
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
-x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
+%x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
+x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0]';
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
 P_hatM(:,:,1) = .001*eye(n_state_vect);
 
@@ -41,8 +42,8 @@ P_zzM = zeros(n_meas,n_meas,n_steps);
 nuM = zeros(n_meas,n_steps);
 P_nuM = zeros(n_meas,n_meas,n_steps);
 
-P_xzM = zeros(n_meas,n_meas,n_steps); % cross corr 
-KM = zeros(n_meas,n_meas,n_steps); % kalman gain
+P_xzM = zeros(n_state_vect,n_meas,n_steps); % cross corr 
+KM = zeros(n_state_vect,n_meas,n_steps); % kalman gain
 
 X = zeros(n_state,n_sigma_points);%sigma points for x_hat
 Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
@@ -53,7 +54,7 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 q = 2;
 r = 1;
 Q = q*eye(n_state_vect);
-R = r*eye(n_state_vect); 
+R = r*eye(n_meas); 
 
 %weights for averaging 
 
