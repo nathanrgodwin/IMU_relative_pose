@@ -32,7 +32,7 @@ end
 %W contains 2n zero-centered sigma points
 W = [W_plus, W_minus];
 
-X = zeros(20, 2*n_dim+1);
+X = zeros(17, 2*n_dim+1);
 X(:,1) = mu;
 
 for i=1:(2*n_dim)
