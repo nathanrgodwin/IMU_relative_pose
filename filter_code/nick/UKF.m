@@ -65,18 +65,18 @@ for i = 1: n_steps
     i
     %PREDICTION
     X = gen_sigma_points(x_hatM(:,i),P_hatM(:,:,i) + Q); 
-    figure(1)
-    surf(X); xlabel('x');ylabel('y');title('X');
+%     figure(1)
+%     surf(X); xlabel('x');ylabel('y');title('X');
     Y = process_a(X);
-    figure(2)
-    surf(Y); xlabel('x');ylabel('y');title('Y');
+%     figure(2)
+%     surf(Y); xlabel('x');ylabel('y');title('Y');
     [x_ap, P_ap, W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hatM(:,i));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE
     Z = measurement_h(Y);% measurement model h to get sigma points from Y
     [z_ap, P_zz, Z_prime] = Z_stats(Z,alpha_mu,alpha_cov, z_apM(:,i));
     
-    nu = z(:,i+1) - z_ap;
+    nu = z(:,i) - z_ap;
     P_nu = P_zz + R;
     P_xz = cross_stats(W_prime,Z_prime,alpha_cov);
     K = P_xz*P_nu^-1;
@@ -97,6 +97,7 @@ for i = 1: n_steps
     P_hat = P_ap - P_xz*((P_nu')\(P_xz'));
     
     if min(eig(P_hat)) < 0
+        P_hat = nearestSPD(P_hat);
         fprintf('non PSD P_hat');
     end 
     %STORE MEMORY
