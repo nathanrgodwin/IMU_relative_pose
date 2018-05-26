@@ -1,9 +1,8 @@
 #include <MPU9250.h>
-#include <quaternionFilters.h>
 
 
-#define includeMag false         // Set to false for basic data read
-#define dataRate 100 //in ms
+#define includeMag true         // Set to false for basic data read
+#define dataRate 10 //in ms
 
 // Pin definitions
 int intPin0 = 2;  // These can be changed, 2 and 3 are the Arduinos ext int pins
@@ -33,11 +32,8 @@ void setup()
   pinMode(myLed, OUTPUT);
   digitalWrite(myLed, LOW);
   
-  delay(1000);
-  
   init_imu(&myIMU0, 0, false);
   init_imu(&myIMU1, 1, false);
-
 }
 
 
@@ -51,15 +47,19 @@ void getData(MPU9250 * imu){
   if (imu->readByte(imu->getAddress(), INT_STATUS) & 0x01){
     //Get acceleration data
     imu->readAccelData(imu->accelCount);
+    
     imu->ax = (float)imu->accelCount[0]*imu->aRes;
     imu->ay = (float)imu->accelCount[1]*imu->aRes;
     imu->az = (float)imu->accelCount[2]*imu->aRes;
 
     imu->readGyroData(imu->gyroCount);
+    
     imu->gx = (float)imu->gyroCount[0] * imu->gRes;
     imu->gy = (float)imu->gyroCount[1] * imu->gRes;
     imu->gz = (float)imu->gyroCount[2] * imu->gRes;
 
+    imu->readMagData(imu->magCount); 
+    
     imu->mx = (float)imu->magCount[0] * imu->mRes
                * imu->factoryMagCalibration[0] - imu->magBias[0];
     imu->my = (float)imu->magCount[1] * imu->mRes
@@ -69,18 +69,6 @@ void getData(MPU9250 * imu){
                
     imu->updateTime();
   }
-
-    // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of
-  // the magnetometer; the magnetometer z-axis (+ down) is opposite to z-axis
-  // (+ up) of accelerometer and gyro! We have to make some allowance for this
-  // orientationmismatch in feeding the output to the quaternion filter. For the
-  // MPU-9250, we have chosen a magnetic rotation that keeps the sensor forward
-  // along the x-axis just like in the LSM9DS0 sensor. This rotation can be
-  // modified to allow any convenient orientation convention. This is ok by
-  // aircraft orientation standards! Pass gyro rate as rad/s
-  MahonyQuaternionUpdate(imu->ax, imu->ay, imu->az, imu->gx * DEG_TO_RAD,
-                         imu->gy * DEG_TO_RAD, imu->gz * DEG_TO_RAD, imu->my,
-                         imu->mx, imu->mz, imu->deltat);
 
   imu->delt_t = millis() - imu->count;
   if (imu->delt_t > dataRate){ //MAYBE INCREASE THIS
@@ -103,7 +91,6 @@ void getData(MPU9250 * imu){
       Serial.print(imu->my);
       Serial.print(", ");
       Serial.print(imu->mz);
-      Serial.println(",");
     }
     imu->count = millis();
     digitalWrite(myLed, !digitalRead(myLed));  // toggle led
@@ -121,7 +108,7 @@ void init_imu(MPU9250 * imu, unsigned char addr, bool serialPrint){
     Serial.print("\n-------------------------------------------------\n");
   }
   imu->setAddress(addr);
-
+    
   // Read the WHO_AM_I register, this is a good test of communication
   byte c = imu->readByte(imu->getAddress(), WHO_AM_I_MPU9250);
   if (serialPrint){
@@ -170,10 +157,16 @@ void init_imu(MPU9250 * imu, unsigned char addr, bool serialPrint){
       Serial.print("I AM 0x");
       Serial.print(d, HEX);
       Serial.print(" I should be 0x");
-      Serial.println(0xFF, HEX);
+      Serial.println(0x48, HEX);
+    }
+    if (d != 0x48)
+    {
+      // Communication failed, stop here
+      Serial.println(F("Communication failed, abort!"));
+      Serial.flush();
+      abort();
     }
 
-    
     // Get magnetometer calibration from AK8963 ROM
     imu->initAK8963(imu->factoryMagCalibration);
     // Initialize device for active mode read of magnetometer
@@ -211,6 +204,7 @@ void init_imu(MPU9250 * imu, unsigned char addr, bool serialPrint){
       Serial.println(imu->magScale[1]);
       Serial.println(imu->magScale[2]);
       delay(2000); // Add delay to see results before serial spew of data
+      
       Serial.println("Magnetometer:");
       Serial.print("X-Axis sensitivity adjustment value ");
       Serial.println(imu->factoryMagCalibration[0], 2);
@@ -220,7 +214,12 @@ void init_imu(MPU9250 * imu, unsigned char addr, bool serialPrint){
       Serial.println(imu->factoryMagCalibration[2], 2);
     }
   }else{
-    if (serialPrint)
-      Serial.println("Error connecting to IMU");
+    Serial.print("Could not connect to MPU9250: 0x");
+    Serial.println(c, HEX);
+
+    // Communication failed, stop here
+    Serial.println(F("Communication failed, abort!"));
+    Serial.flush();
+    abort();
   }
 }
