@@ -23,7 +23,8 @@ n_steps= size(data,2);
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
 %x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
-x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0]';
+% x_hatM(:,1) = state2vector(new_state());
+x_hatM(:,1) = true_state(:,1);
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
 P_hatM(:,:,1) = .001*eye(n_state_vect);
 
@@ -54,7 +55,10 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 q = 2;
 r = 1;
 Q = q*eye(n_state_vect);
-R = r*eye(n_meas); 
+q = 0.1; Q = cov(state_quat2aa(true_state)') + q*eye(n_state_vect);
+R = r*eye(n_meas);
+r = 0.1;
+R = cov(data') + r*eye(n_meas);
 
 %weights for averaging 
 
@@ -118,6 +122,20 @@ end
 axis_len = 1;
 axis_tips = axis_len*eye(3);
 
+figure()
+subplot(3,1,1)
+title('true');
+imagesc(true_state)
+
+subplot(3,1,2)
+title('hat');
+imagesc(x_hatM(:,1:size(z,2)))
+
+subplot(3,1,3)
+title('diff');
+imagesc(true_state-x_hatM(:,1:size(z,2)))
+
+colorbar()
 
 function A_=inversePD(A)
 %A:positive definite matrix

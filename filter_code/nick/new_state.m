@@ -7,7 +7,7 @@ s.GRI   = [1; zeros(3,1)];
 s.IRJ   = [1; zeros(3,1)];
 s.IPJ   = zeros(3,1);
 s.GW    = zeros(3,1);
-s.GVI_0 = zeros(3,1);
+s.GPCI  = zeros(3,1);
 %s.GVI_1 = zeros(3,1);
 
 end
