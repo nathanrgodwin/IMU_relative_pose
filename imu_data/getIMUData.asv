@@ -1,0 +1,12 @@
+s = serial('COM3');
+set(s, 'BaudRate', 115200)
+fopen(s);
+scanString = '%f, %f, %f, %f, %f, %f, %f, %f, %f,\n';
+%startTime = datetime;
+min = input('Get sensing time: ');
+for i = 1:100
+    imu1 = [imu1;fscanf(s,scanString)];
+    imu2 = [imu2;fscanf(s,scanString)];
+end
+
+fclose(s);
