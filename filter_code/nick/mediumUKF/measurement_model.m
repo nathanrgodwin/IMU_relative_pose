@@ -43,10 +43,10 @@ ms.AJm = ajm_G + JAJ_quat(2:4);
         % ms.AJm = JAJ + unquat(quatproduct(quatproduct(COMP_ROT, g_quat), quatinv(COMP_ROT)));
 
 %ms.IWI
-ms.IWI = unquat(quatproduct(quatinv(GRI), quat_product([0; GW], GRI)));
+ms.IWI = unquat(quatproduct(quatinv(GRI), quatproduct([0; G_w], GRI)));
 
 %ms.JWJ
-ms.JWJ = unquat(quatproduct(quatinv(ss.IRJ), quat_product([0; ms.IWI], ss.IRJ)));
+ms.JWJ = unquat(quatproduct(quatinv(ss.IRJ), quatproduct([0; ms.IWI], ss.IRJ)));
 
 % %
 % qGRI = ss.GRI;

@@ -8,13 +8,13 @@ close all
 % z_AIM = data(1:3,:); %measurements
 % z_AJM
 % z_Jw
-
+z = [z_AIM;z_AJM;z_Jw];
 
 % %x: extra information from preprocessing
-% x_I_w_I = data(4:6,:);%data from 276a. measurement but used as input to
-% x_G_w_I =
-% x_G_alpha_I = G_alpha%check that this is time-aligned
-% x_GRI = GRI;
+x_I_w_I = data(4:6,:);%data from 276a. measurement but used as input to
+x_G_w_I = G_w;
+x_G_alpha_I = G_alpha; %check that this is time-aligned
+x_GRI = GRI;
 
 %% states
 % 1: G_R_I = 4x1 quat
@@ -22,8 +22,8 @@ close all
 n_state = 7;
 n_state_vect = n_state - 1; %since 2 quats --> vect
 n_sigma_points = n_state_vect*2+1;
-n_meas = 12; %ai,aj,wi,wj
-n_steps= size(x_G_alpha,2);
+n_meas = 9; %ai,aj,wi,wj
+n_steps= size(x_G_alpha_I,2);
 
 g_quat = [0;0;0;1];%gravity vector, units of g
 
@@ -31,7 +31,7 @@ g_quat = [0;0;0;1];%gravity vector, units of g
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
 %x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
-x_hatM(:,1) = [1 0 0 0];
+x_hatM(:,1) = [1 0 0 0, 0 -1/9.8 0]; %units of 9.8
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
 P_hatM(:,:,1) = .0001*eye(n_state_vect);
 
@@ -76,18 +76,20 @@ for itr = 1: n_steps-1
     [x_ap, P_ap, W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hatM(:,itr));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE
-    Z = measurement_h(Y, x_G_w_I(:,itr+1),x_G_alpha(itr+1), x_GRI(:,itr+1));% measurement model h to get sigma points from Y
+    Z = measurement_h(Y, x_G_w_I(:,itr+1),x_G_alpha_I(:,itr+1), x_GRI(:,itr+1));% measurement model h to get sigma points from Y
     
     [z_ap, P_zz] = Z_stats(Z,alpha_mu,alpha_cov);%, z_apM(:,itr));
     
-    nu = z_a_IM(:,itr) - z_ap;
+    nu = z(:,itr) - z_ap;
     P_nu = P_zz + R;
     P_xz = cross_stats(W_prime,Z,alpha_mu, alpha_cov);
     K = P_xz*P_nu^-1;
     
     % x_k|k = x_ap + K*nu
+    x_hat = zeros(7,1);
+    x_hat(1:4) = quatproduct(x_ap, aa2quat(K*nu));
+    x_hat(5:7) = x_hatM(5:7) 
     
-    x_hat = quatproduct(x_ap, aa2quat(K*nu));
     P_hat = P_ap - K*P_nu'*K';
     
     if min(eig(P_hat)) < 0

@@ -132,9 +132,9 @@ plot(t,eulers(:,2));
 subplot(3,1,3)
 plot(t,eulers(:,3));
 
-x_hat_python = csvread('x_hat_from_UKFpython.csv');
-x_hat_err = x_hat_python - x_hatM;
-figure; surf(x_hat_err)
+% x_hat_python = csvread('x_hat_from_UKFpython.csv');
+% x_hat_err = x_hat_python - x_hatM;
+% figure; surf(x_hat_err)
 
 
 
