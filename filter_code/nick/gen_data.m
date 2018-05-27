@@ -2,7 +2,7 @@ rng('default');
 
 n_steps = 500;
 init_state = new_state();
-init_state.GRI = aa2quat([1; 0; 0]);
+init_state.GRI = aa2quat([0; 0; 0]);
 init_state.GW = [0;0;1];
 init_state.IPJ = [1;0.2;0];
 sv = state2vector(init_state);
