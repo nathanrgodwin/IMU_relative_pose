@@ -1,11 +1,11 @@
 delete(instrfindall)
 %addpath('quaternion_library');
 close all
-
+clear variablesf
 readMag = 1;
 
 s = serial('COM3');
-set(s, 'BaudRate', 115200)
+set(s, 'BaudRate', 38400)
 fopen(s);
 
 for i = 1:2
@@ -27,13 +27,5 @@ end
 csvwrite(['imu1_data', datestr(now, 'DD_HH_MM') '.csv'], imu1);
 csvwrite(['imu2_data', datestr(now, 'DD_HH_MM') '.csv'], imu2);
 
-accel1 = imu1(:, 1:3);
-gyro1 = imu1(:, 4:6);
-accel2 = imu2(:, 1:3);
-gyro2 = imu2(:, 4:6);
-if (readMag)
-    mag1 = imu1(:, 7:9);
-    mag2 = imu2(:, 7:9);
-end
 fclose(s);
 
