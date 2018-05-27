@@ -1,6 +1,7 @@
-clear all
+
 close all
-gen_data
+
+%gen_data
 %% states
 % 1: G_R_I = 4x1 quat
 % 2: I_R_J = 4x1 quat
@@ -16,7 +17,7 @@ n_sigma_points = n_state_vect*2+1;
 n_meas = 18; %ai,aj,wi,wj,GRI,GRJ
 n_steps= size(data,2);
 
-% dt = t(2) - t(1);
+ dt = .01;
 % g_quat = [0;0;0;1];%gravity vector, units of g 
 
 %M indicates storage variable
@@ -54,14 +55,17 @@ Y = zeros(n_state_vect,n_sigma_points);%sigma points for x_ap
 q = 2;
 r = 1;
 Q = q*eye(n_state_vect);
-R = r*eye(n_meas); 
-
+R = r*eye(n_meas);
+r_a = .1*ones(1,3);
+r_w = .01*ones(1,3);
+r_o = .1*ones(1,3); %orientation
+R = diag([r_a, r_a, r_w,r_w,r_o,r_o]);
 %weights for averaging 
 
 alpha_mu = 1; %or 0
 alpha_cov = 1; % or 2 
 
-for i = 1: n_steps
+for i = 1: n_steps-1
     i
     %PREDICTION
     X = gen_sigma_points(x_hatM(:,i),P_hatM(:,:,i) + Q); 
@@ -81,7 +85,7 @@ for i = 1: n_steps
     P_xz = cross_stats(W_prime,Z_prime,alpha_cov);
     K = P_xz*P_nu^-1;
     % x_k|k = x_ap + K*nu
-%     Kv = K*nu;
+%    Kv = K*nu;
     Kv = P_xz*(P_nu\nu);    
     
     x_hat = zeros(n_state,1);
@@ -98,7 +102,7 @@ for i = 1: n_steps
     
     if min(eig(P_hat)) < 0
         P_hat = nearestSPD(P_hat);
-        fprintf('non PSD P_hat');
+        fprintf('non PSD P_hat\n');
     end 
     %STORE MEMORY
     x_hatM(:,i+1) = x_hat;
@@ -118,14 +122,5 @@ end
 axis_len = 1;
 axis_tips = axis_len*eye(3);
 
-
-function A_=inversePD(A)
-%A:positive definite matrix
-M=size(A,1);
-[R b] = chol(A);
-if b~=0
-    return
-end
-R_ = R \ eye(M);
-A_ = R_ * R_';
-end
+surf(x_hatM(9:11,:),'edgecolor', 'None');
+plot(t,x_hatM(9:11,:))
