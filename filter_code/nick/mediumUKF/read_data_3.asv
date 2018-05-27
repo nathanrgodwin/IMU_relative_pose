@@ -1,0 +1,19 @@
+% -read_data_2 to get all meas
+% -go to different folder, run baselineUKF
+% -preprocess_medUKF to get G_w, G_a
+% -mediumUKF
+
+
+
+clear all
+close all
+
+%reads data from 276a dataset as axayaz wxwywz as a wide matrix
+data = csvread('data_imu_276a_dset1.csv');
+t = csvread('t_imu_276a_dataset1.csv');
+%data(1:3,:) = data(1:3,:);
+
+%reads data from our own dataset
+
+%outputs
+%aIM, AJM,I_w,J_w, with time going horizontal
