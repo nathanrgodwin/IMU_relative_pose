@@ -13,7 +13,7 @@ n_sigma_points = n_state_vect*2+1;
 n_meas = 3;
 n_steps= size(data,2);
 
-g_quat = [0;0;0;1];%gravity vector, units of m/s^2
+g_quat = [0;0;0;9.8];%gravity vector, units of m/s^2
 
 %M indicates storage variable
 %hat indicates estimate
@@ -44,7 +44,7 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
 q = .001;
-r = .01;
+r = .01*9.8^2;
 Q = q*eye(n_state_vect);
 R = r*eye(n_meas);
 %weights for averaging 
