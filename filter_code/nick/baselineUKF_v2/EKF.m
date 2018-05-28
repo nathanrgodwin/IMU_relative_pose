@@ -35,9 +35,10 @@ for i = 1:len-1
    H = EKF_H(x_ap);
    R = EKF_R;
    K = (Sigma_ap * H') / (H*Sigma_ap*H' + R*V*R');
-   z = EKF_h(x_t);
+   z = EKF_hh(x_t);
 
    x_hat = x_ap + K * (z - EKF_hh(x_ap));
+   x_hat = x_hat./ norm(x_hat);
    Sigma_hat = (eye(4) - K*H)*Sigma_ap;
    
    x_hatM(:,i+1) = x_hat;
