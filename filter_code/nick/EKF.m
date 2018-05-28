@@ -1,10 +1,11 @@
-read_baseline_data;
-
+EKF_read_baseline_data;
 
 init_state = [1 0 0 0]';
 init_Sigma = eye(4)';
 
-gyro = gyro(:,:)/100;
+dt = 1/100;
+
+gyro = gyro(:,:)*dt;
 z = accel(:,:);
 [~, len] = size(z);
 
