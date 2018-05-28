@@ -3,6 +3,8 @@
 % -preprocess_medUKF to get G_w, G_a
 % -mediumUKF
 
+close all
+
 %given B_w, x_hatM
 GRI = x_hatM; %from baselineUKF
 %outputs: G_w, G_alpha
@@ -79,3 +81,18 @@ title('both');
 subplot(2,1,2);
 plot(t(2:end),B_alpha(1,:));
 
+%% LPF 
+
+u = B_w(1,:);
+b = firpm(10,[0 .1 .2 .99],[1 1 0 0]);
+y = filter(b,1,u);
+LPF = tf(b,1,.01);
+figure
+bode(LPF);
+
+figure
+subplot(2,1,1)
+plot(u);
+title('B_w ');
+subplot(2,1,2)
+plot(y);

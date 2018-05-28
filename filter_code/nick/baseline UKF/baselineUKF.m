@@ -1,3 +1,4 @@
+%updated: for line for nu, z(:,itr) to z(:,itr+1). itr worked
 
 close all
 
@@ -82,7 +83,7 @@ for itr = 1: n_steps-1
     
     [z_ap, P_zz] = Z_stats(Z,alpha_mu,alpha_cov, z_apM(:,itr));
     
-    nu = z(:,itr) - z_ap;
+    nu = z(:,itr+1) - z_ap;
     P_nu = P_zz + R;
     P_xz = cross_stats(W_prime,Z,alpha_mu, alpha_cov);
     K = P_xz*P_nu^-1;

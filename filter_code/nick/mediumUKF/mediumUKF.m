@@ -22,7 +22,7 @@ x_GRI = GRI;
 n_state = 7;
 n_state_vect = n_state - 1; %since 2 quats --> vect
 n_sigma_points = n_state_vect*2+1;
-n_meas = 9; %ai,aj,wi,wj
+n_meas = 9; %ai,aj,wj
 n_steps= size(x_G_alpha_I,2);
 
 g_quat = [0;0;0;1];%gravity vector, units of g
@@ -80,7 +80,7 @@ for itr = 1: n_steps-1
     
     [z_ap, P_zz] = Z_stats(Z,alpha_mu,alpha_cov);%, z_apM(:,itr));
     
-    nu = z(:,itr) - z_ap;
+    nu = z(:,itr+1) - z_ap;
     P_nu = P_zz + R;
     P_xz = cross_stats(W_prime,Z,alpha_mu, alpha_cov);
     K = P_xz*P_nu^-1;
