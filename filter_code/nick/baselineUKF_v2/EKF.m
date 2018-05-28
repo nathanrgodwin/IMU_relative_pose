@@ -29,7 +29,7 @@ for i = 1:len-1
    A = EKF_A(x_t);
    Q = EKF_Q(x_t, gyro(:,i)*dt);
    
-   x_ap = EKF_a(x_t, gyro(:,i)*dt);
+   x_ap = EKF_aa(x_t, gyro(:,i)*dt);
    Sigma_ap = A * Sigma_tt * A' + Q*W*Q';
 
    H = EKF_H(x_ap);
@@ -37,7 +37,7 @@ for i = 1:len-1
    K = (Sigma_ap * H') / (H*Sigma_ap*H' + R*V*R');
    z = EKF_h(x_t);
 
-   x_hat = x_ap + K * (z - EKF_h(x_ap));
+   x_hat = x_ap + K * (z - EKF_hh(x_ap));
    Sigma_hat = (eye(4) - K*H)*Sigma_ap;
    
    x_hatM(:,i+1) = x_hat;
