@@ -81,3 +81,6 @@ save('out_UKF_4D_1651_circle.mat','xhat_1');
 
 
 
+[xhat_2,f_2] = baseline7UKF(data,t);
+
+[xhat_3,f_3] = EKF(data,t);

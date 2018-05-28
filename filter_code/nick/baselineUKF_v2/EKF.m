@@ -1,38 +1,35 @@
+function [x_hatM,fig] = EKF(data,t)
+
+
 EKF_read_baseline_data;
 
 init_state = [1 0 0 0]';
 init_Sigma = eye(4)';
 
-dt = 1/100;
-
-gyro = gyro(:,:)*dt;
-z = accel(:,:);
+z = data(1:3,:);
+gyro = data(4:6,:);
 [~, len] = size(z);
 
-x_hatM = zeros(4,len+1);
+x_hatM = zeros(4,len);
 x_hatM(:,1) = init_state;
 
-SigmaM = zeros(4,4,len+1);
+SigmaM = zeros(4,4,len);
 SigmaM(:,:,1) = init_Sigma;
 
-x_apM = zeros(4,len+1);
+x_apM = zeros(4,len);
 
 W = eye(3) * 0.001;
 V = eye(3) * 0.01;
 
-for i = 1:len
-   if i == 1
-       x_t = init_state;
-       Sigma_tt = init_Sigma;
-   else
+for i = 1:len-1
+    dt = t(i+1) - t(i);
        x_t = x_hatM(:,i);
        Sigma_tt = SigmaM(:,:,i);
-   end
     
    A = EKF_A(x_t);
-   Q = EKF_Q(x_t, gyro(:,i));
+   Q = EKF_Q(x_t, gyro(:,i)*dt);
    
-   x_ap = EKF_a(x_t, gyro(:,i));
+   x_ap = EKF_a(x_t, gyro(:,i)*dt);
    Sigma_ap = A * Sigma_tt * A' + Q*W*Q';
 
    H = EKF_H(x_ap);
@@ -47,12 +44,14 @@ for i = 1:len
    SigmaM(:,:,i+1) = Sigma_hat;
 end
 
+eulers = 180/pi*quatern2euler(x_hatM');
 
-readable_states = quatern2euler(x_hatM');
-figure();
+fig = figure;
 subplot(3,1,1)
-plot(readable_states(:,1))
+plot(t,eulers(:,1));
 subplot(3,1,2)
-plot(readable_states(:,2))
+plot(t,eulers(:,2));
 subplot(3,1,3)
-plot(readable_states(:,3))
+plot(t,eulers(:,3));
+
+end
