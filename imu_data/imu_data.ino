@@ -2,7 +2,8 @@
 
 
 #define includeMag true         // Set to false for basic data read
-#define dataRate 10 //in ms
+#define dataRate 5 //in ms
+#define NUM_IMU 2
 
 // Pin definitions
 int intPin0 = 2;  // These can be changed, 2 and 3 are the Arduinos ext int pins
@@ -10,7 +11,9 @@ int intPin1 = 3;
 int myLed  = 13;  // Set up pin 13 led for toggling
 
 MPU9250 myIMU0;
-MPU9250 myIMU1;
+#if NUM_IMU == 2
+  MPU9250 myIMU1;
+#endif
 
 void init_imu(MPU9250 *, unsigned char);
 void getData(MPU9250 *);
@@ -19,7 +22,7 @@ void setup()
 {
   Wire.begin();
   // TWBR = 12;  // 400 kbit/sec I2C speed
-  Serial.begin(38400);
+  Serial.begin(115200);
 
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin0, INPUT);
@@ -33,14 +36,18 @@ void setup()
   digitalWrite(myLed, LOW);
   
   init_imu(&myIMU0, 0, false);
+#if NUM_IMU == 2
   init_imu(&myIMU1, 1, false);
+#endif
 }
 
 
 void loop()
 { 
   getData(&myIMU0);
+#if NUM_IMU == 2
   getData(&myIMU1);
+#endif
 }
 
 void getData(MPU9250 * imu){
@@ -141,7 +148,7 @@ void init_imu(MPU9250 * imu, unsigned char addr, bool serialPrint){
     }
 
     // Calibrate gyro and accelerometers, load biases in bias registers
-    imu->calibrateMPU9250(imu->gyroBias, imu->accelBias);
+    //imu->calibrateMPU9250(imu->gyroBias, imu->accelBias);
 
     imu->initMPU9250();
     // Initialize device for active mode read of acclerometer, gyroscope, and
