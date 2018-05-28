@@ -24,7 +24,8 @@ n_steps= size(data,2);
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
 %x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0, 0 0 0]';
-x_hatM(:,1) = [1 0 0 0,1 0 0 0,0 0 0,0 0 0, 0 0 0]';
+% x_hatM(:,1) = state2vector(new_state());
+x_hatM(:,1) = true_state(:,1);
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
 P_hatM(:,:,1) = .001*eye(n_state_vect);
 
@@ -122,5 +123,31 @@ end
 axis_len = 1;
 axis_tips = axis_len*eye(3);
 
+figure()
+subplot(3,1,1)
+title('true');
+imagesc(true_state)
+
+subplot(3,1,2)
+title('hat');
+imagesc(x_hatM(:,1:size(z,2)))
+
+subplot(3,1,3)
+title('diff');
+imagesc(true_state-x_hatM(:,1:size(z,2)))
+
+colorbar()
+
+figure();
 surf(x_hatM(9:11,:),'edgecolor', 'None');
 plot(t,x_hatM(9:11,:))
+function A_=inversePD(A)
+%A:positive definite matrix
+M=size(A,1);
+[R b] = chol(A);
+if b~=0
+    return
+end
+R_ = R \ eye(M);
+A_ = R_ * R_';
+end

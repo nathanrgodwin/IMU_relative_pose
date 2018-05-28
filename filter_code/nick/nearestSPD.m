@@ -57,9 +57,3 @@ while p ~= 0
     Ahat = Ahat + (-mineig*k.^2 + eps(mineig))*eye(size(A));
   end
 end
-
-
-
-
-
-

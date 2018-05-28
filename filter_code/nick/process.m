@@ -6,14 +6,15 @@ function [ new_sv ] = process( ss )
 s = vector2state(ss);
 dt = 0.01;
 
-new_s.GRI   = quatproduct(euler2quatern(dt*s.GW), s.GRI);
+new_s.GRI   = quatproduct(aa2quat(dt*s.GW), s.GRI);
+% new_s.GRI   = quatproduct(s.GRI, aa2quat(dt*s.GW));
 new_s.IRJ   = s.IRJ;
 new_s.IPJ   = s.IPJ;
 new_s.GW    = s.GW;
-
+new_s.GPCI  = s.GPCI;
 %GVI_0
 %new_s.GVI_0 = s.GVI_0 + (s.GVI_0 - s.GVI_1)/dt;
-new_s.GVI_0 = s.GVI_0; %version without accel
+%new_s.GVI_0 = s.GVI_0; %version without accel
 
 %new_s.GVI_1 = s.GVI_0;
 
