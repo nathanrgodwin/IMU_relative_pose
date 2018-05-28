@@ -4,7 +4,7 @@ function [dout]=Madgwick(din,t)
 
     quaternion = zeros(length(t), 4);
     for i = 1:length(t)
-        AHRS1.Update(din(i,4:6) * (pi/180), din(i,1:3)*100, din(i,7:9)/1000);
+        AHRS1.Update(din(i,4:6) * (pi/180), din(i,1:3), din(i,7:9)/1000);
         quaternion(i, :) = AHRS.Quaternion;
     end
     dout = quaternion';
