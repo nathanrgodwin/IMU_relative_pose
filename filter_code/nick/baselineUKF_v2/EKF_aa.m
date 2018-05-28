@@ -6,6 +6,8 @@ dt = 1;%in seconds
 quat_delta = aa2quat(quat2aa(euler2quatern(omega_t1))*dt);
 
 new_state_t1 = quatproduct(state_t,quat_delta);
+  
+
 
 end
 
