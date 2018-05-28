@@ -22,8 +22,8 @@ for i = 1:n
     imu2(:,4:6) = deg2rad(imu2(:,4:6));
     
      
-    AHRS1 = MadgwickAHRS('SamplePeriod', 10e-3, 'Beta', 0.1);
-    AHRS2 = MadgwickAHRS('SamplePeriod', 10e-3, 'Beta', 0.1);
+    AHRS1 = MadgwickAHRS('SamplePeriod', 75e-3, 'Beta', 0.1);
+    AHRS2 = MadgwickAHRS('SamplePeriod', 75e-3, 'Beta', 0.1);
     quaternion1 = zeros(minSize, 4);
     quaternion2 = zeros(minSize, 4);
     for t = 1:minSize
@@ -32,8 +32,6 @@ for i = 1:n
         quaternion1(t, :) = AHRS1.Quaternion;
         quaternion2(t, :) = AHRS2.Quaternion;
     end
-    imu1(:,7:9) = deg2rad(imu1(:,7:9));
-    imu2(:,7:9) = deg2rad(imu2(:,7:9));
     
     euler1 = quatern2euler(quaternConj(quaternion1)) * (180/pi);	% use conjugate for sensor frame relative to Earth and convert to degrees.
 
@@ -61,8 +59,8 @@ for i = 1:n
     legend('\phi', '\theta', '\psi');
     hold off;
     
-    csvwrite(['euler_' filename1], [imu1(1:minSize,:), quaternion1, euler1]);
-    csvwrite(['euler_' filename2], [imu2(1:minSize,:), quaternion2, euler2]);
+    csvwrite(['unit_' filename1], [imu1(1:minSize,:), quaternion1, euler1]);
+    csvwrite(['unit_' filename2], [imu2(1:minSize,:), quaternion2, euler2]);
     
     
 end
