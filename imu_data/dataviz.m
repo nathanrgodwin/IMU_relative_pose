@@ -1,47 +1,101 @@
-function dataviz(csvpath, videoname, myTitle)
+function dataviz(csvpath1, csvpath2, videoname, myTitle, myTitle2)
     addpath('quaternion_library'); 
+    if exist(videoname, 'file') == 2
+        del = input('File already exists. Overwrite? (y/n): ');
+        if (del ~= 'y')
+            error('File already exists.');
+        end
+    end
+    file1 = csvread(csvpath1);
+    if (~strcmp(csvpath2, ''))
+        file2 = csvread(csvpath2);
+    end
 
-    file = csvread(csvpath);
-
-    n = size(file,2);
+    n = size(file1,2);
     fig = figure('visible','off');
     linestart = [0;0;0];
-    quat = file(1:4,:)';
-    lineendx = quaternProd(quat,quaternProd([0,1,0,0],quaternConj(quat)));
-    lineendy = quaternProd(quat,quaternProd([0,0,1,0],quaternConj(quat)));
-    lineendz = quaternProd(quat,quaternProd([0,0,0,1],quaternConj(quat)));
+    quat1 = file1(1:4,:)';
+    lineendx1 = quaternProd(quat1,quaternProd([0,1,0,0],quaternConj(quat1)));
+    lineendy1 = quaternProd(quat1,quaternProd([0,0,1,0],quaternConj(quat1)));
+    lineendz1 = quaternProd(quat1,quaternProd([0,0,0,1],quaternConj(quat1)));
+    
+    if (~strcmp(csvpath2, ''))
+        quat2 = file2(1:4,:)';
+        lineendx2 = quaternProd(quat2,quaternProd([0,1,0,0],quaternConj(quat2)));
+        lineendy2 = quaternProd(quat2,quaternProd([0,0,1,0],quaternConj(quat2)));
+        lineendz2 = quaternProd(quat2,quaternProd([0,0,0,1],quaternConj(quat2)));
+    end
 
     %frames(length(round(n*.3):round(n*.375))) = struct('cdata',[],'colormap',[]);
     %v = VideoWriter(videoname);
     %v.FrameRate= 75;
     %open(v);
     for i = round(n*.3):(round(n*.3)+450)
-        line = [linestart, lineendz(i, 2:end)'];
-        plot3(line(1,1:2), line(2,1:2), line(3,1:2), 'b', 'LineWidth', 3)
-        %pos = ['(' num2str(line(1,2), '%0.2f') ', ' num2str(line(2,2), '%0.2f') ', ' num2str(line(3,2), '%0.2f') ')'];
-        pos = 'Z';
-        text(line(1,2),line(2,2),line(3,2),pos);
+        if (~strcmp(myTitle2, ''))
+            subplot(1,2,1)
+        end
+        line1 = [linestart, lineendx1(i, 2:end)'];
+        plot3(line1(1,1:2), line1(2,1:2), line1(3,1:2), 'r', 'LineWidth', 3)
+        %pos = ['(' num2str(line1(1,2), '%0.2f') ', ' num2str(line1(2,2), '%0.2f') ', ' num2str(line1(3,2), '%0.2f') ')'];
+        pos = 'X';
+        text(line1(1,2),line1(2,2),line1(3,2),pos);
         hold on
 
-        line = [linestart, lineendx(i, 2:end)'];
-        plot3(line(1,1:2), line(2,1:2), line(3,1:2), 'r', 'LineWidth', 3)
-        %pos = ['(' num2str(line(1,2), '%0.2f') ', ' num2str(line(2,2), '%0.2f') ', ' num2str(line(3,2), '%0.2f') ')'];
-        pos = 'X';
-        text(line(1,2),line(2,2),line(3,2),pos);
 
-        line = [linestart, lineendy(i, 2:end)'];
-        plot3(line(1,1:2), line(2,1:2), line(3,1:2), 'g', 'LineWidth', 3)
-        %pos = ['(' num2str(line(1,2), '%0.2f') ', ' num2str(line(2,2), '%0.2f') ', ' num2str(line(3,2), '%0.2f') ')'];
+        line1 = [linestart, lineendy1(i, 2:end)'];
+        plot3(line1(1,1:2), line1(2,1:2), line1(3,1:2), 'g', 'LineWidth', 3)
+        %pos = ['(' num2str(line1(1,2), '%0.2f') ', ' num2str(line1(2,2), '%0.2f') ', ' num2str(line1(3,2), '%0.2f') ')'];
         pos = 'Y';
-        text(line(1,2),line(2,2),line(3,2),pos);
-
+        text(line1(1,2),line1(2,2),line1(3,2),pos);
+        
+        line1 = [linestart, lineendz1(i, 2:end)'];
+        plot3(line1(1,1:2), line1(2,1:2), line1(3,1:2), 'b', 'LineWidth', 3)
+        %pos = ['(' num2str(line(1,2), '%0.2f') ', ' num2str(line(2,2), '%0.2f') ', ' num2str(line(3,2), '%0.2f') ')'];
+        pos = 'Z';
+        text(line1(1,2),line1(2,2),line1(3,2),pos);
+        title(myTitle)
         grid on
         xlim([-1 1]);
         ylim([-1 1]);
         zlim([-1 1]);
-        title(myTitle)
+        if (strcmp(csvpath2, ''))
+            hold off
+        end
+        
+        if (~strcmp(csvpath2, ''))
+            if (~strcmp(myTitle2, ''))
+                subplot(1,2,2)
+            end
+            hold on
+
+            line2 = [linestart, lineendx2(i, 2:end)'];
+            plot3(line2(1,1:2), line2(2,1:2), line2(3,1:2), 'm', 'LineWidth', 3)
+            %pos = ['(' num2str(line1(1,2), '%0.2f') ', ' num2str(line1(2,2), '%0.2f') ', ' num2str(line1(3,2), '%0.2f') ')'];
+            pos = 'X''';
+            text(line2(1,2),line2(2,2),line2(3,2),pos);
+
+            line2 = [linestart, lineendy2(i, 2:end)'];
+            plot3(line2(1,1:2), line2(2,1:2), line2(3,1:2), 'y', 'LineWidth', 3)
+            %pos = ['(' num2str(line1(1,2), '%0.2f') ', ' num2str(line1(2,2), '%0.2f') ', ' num2str(line1(3,2), '%0.2f') ')'];
+            pos = 'Y''';
+            text(line2(1,2),line2(2,2),line2(3,2),pos);
+            
+            line2 = [linestart, lineendz2(i, 2:end)'];
+            plot3(line2(1,1:2), line2(2,1:2), line2(3,1:2), 'c', 'LineWidth', 3)
+            %pos = ['(' num2str(line(1,2), '%0.2f') ', ' num2str(line(2,2), '%0.2f') ', ' num2str(line(3,2), '%0.2f') ')'];
+            pos = 'Z''';
+            text(line2(1,2),line2(2,2),line2(3,2),pos);
+            
+            if (~strcmp(myTitle2, ''))
+                title(myTitle2);
+            end
+            grid on
+            xlim([-1 1]);
+            ylim([-1 1]);
+            zlim([-1 1]);
+            hold off
+        end
         drawnow
-        hold off
         frame = getframe(fig);
         im = frame2im(frame); 
         [imind,cm] = rgb2ind(im,256); 
