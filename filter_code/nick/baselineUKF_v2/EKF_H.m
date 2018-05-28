@@ -3,7 +3,7 @@ function [ H ] = EKF_H( state )
 %   Detailed explanation goes here
 
 % H = zeros(3,4);
-g=9.8;
+g=-9.8;
 
 q1 = state(1);
 q2 = state(2);

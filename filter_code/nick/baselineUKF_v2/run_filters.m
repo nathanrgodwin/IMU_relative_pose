@@ -8,3 +8,6 @@ data(1:3,:) = data(1:3,:)*9.8; %
 
 [xhat_1,f_1] = baselineUKF(data,t);
 
+[xhat_2,f_2] = baseline7UKF(data,t);
+
+[xhat_3,f_3] = EKF(data,t);

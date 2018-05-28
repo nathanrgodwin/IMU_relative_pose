@@ -2,7 +2,7 @@ function [ z ] = EKF_h( state )
 %UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
 
-g = 9.8;
+g = -9.8;
 
 % z = zeros(3,1);
 % 
