@@ -17,6 +17,16 @@ title('4D 276a data')
 csvwrite('out_UKF_4D_276a_data.csv',xhat_1);
 save('out_UKF_4D_276a_data.mat','xhat_1');
 
+[xhat_2,f_2] = baseline7UKF(data,t);
+title('7D 276a data')
+csvwrite('out_UKF_7D_276a_data.csv',xhat_2);
+save('out_UKF_7D_276a_data.mat','xhat_2');
+
+[xhat_3,f_3] = EKF(data,t);
+title('EKF 276a data')
+csvwrite('out_EKF_276a_data.csv',xhat_3);
+save('out_EKF_276a_data.mat','xhat_3');
+
 %% 1602 updown
 %check units, bias
 dt = 1/75;
@@ -32,7 +42,15 @@ title('4D 1602 updown');
 csvwrite('out_UKF_4D_1602_updown.csv',xhat_1);
 save('out_UKF_4D_1602_updown.mat','xhat_1');
 
+[xhat_2,f_2] = baseline7UKF(data,t);
+title('7D 1602 updown')
+csvwrite('out_UKF_7D_1602_updown.csv',xhat_2);
+save('out_UKF_7D_1602_updown.mat','xhat_2');
 
+[xhat_3,f_3] = EKF(data,t);
+title('EKF 1602 updown')
+csvwrite('out_EKF_1602_updown.csv',xhat_3);
+save('out_EKF_1602_updown.mat','xhat_3');
 
 %% 1608 updown
 %check units, bias
@@ -48,6 +66,16 @@ title('4D 1608 updown');
 csvwrite('out_UKF_4D_1608_updown.csv',xhat_1);
 save('out_UKF_4D_1608_updown.mat','xhat_1');
 
+[xhat_2,f_2] = baseline7UKF(data,t);
+title('7D 1608 updown')
+csvwrite('out_UKF_7D_1608_updown.csv',xhat_2);
+save('out_UKF_7D_1608_updown.mat','xhat_2');
+
+[xhat_3,f_3] = EKF(data,t);
+title('EKF 1608 updown')
+csvwrite('out_EKF_1608_updown.csv',xhat_3);
+save('out_EKF_1608_updown.mat','xhat_3');
+
 %% 1640 updown
 %check units, bias
 dt = 1/75;
@@ -61,6 +89,16 @@ title('4D 1640 updown');
 title('4D 1640 updown');
 csvwrite('out_UKF_4D_1640_updown.csv',xhat_1);
 save('out_UKF_4D_1640_updown.mat','xhat_1');
+
+[xhat_2,f_2] = baseline7UKF(data,t);
+title('7D 1640 updown')
+csvwrite('out_UKF_7D_1640_updown.csv',xhat_2);
+save('out_UKF_7D_1640_updown.mat','xhat_2');
+
+[xhat_3,f_3] = EKF(data,t);
+title('EKF 1640 updown')
+csvwrite('out_EKF_1640_updown.csv',xhat_3);
+save('out_EKF_1640_updown.mat','xhat_3');
 
 
 %% 1651 circle
@@ -77,10 +115,12 @@ title('4D 1651 circle');
 csvwrite('out_UKF_4D_1651_circle.csv',xhat_1);
 save('out_UKF_4D_1651_circle.mat','xhat_1');
 
-
-
-
-
 [xhat_2,f_2] = baseline7UKF(data,t);
+title('7D 1651 circle')
+csvwrite('out_UKF_7D_1651_circle.csv',xhat_2);
+save('out_UKF_7D_1651_circle.mat','xhat_2');
 
 [xhat_3,f_3] = EKF(data,t);
+title('EKF 1651 circle')
+csvwrite('out_EKF_1651_circle.csv',xhat_3);
+save('out_EKF_1651_circle.mat','xhat_3');
