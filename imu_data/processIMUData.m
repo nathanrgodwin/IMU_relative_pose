@@ -2,10 +2,11 @@
 addpath('quaternion_library'); 
 close all
 
-files  = dir('imu*.csv');
+%files  = dir('imu*.csv');
+files = [1 2];
 n = length(files)/2;
 for i = 1:n
-    filename1 = files(i).name;
+    filename1 = 'imu1_data27_16_17_flat_x.csv';%files(i).name;
     filename2 = filename1;
     filename2(4) = num2str(2);
     disp(filename1)
@@ -22,8 +23,8 @@ for i = 1:n
     imu2(:,4:6) = deg2rad(imu2(:,4:6));
     
      
-    AHRS1 = MadgwickAHRS('SamplePeriod', 75e-3, 'Beta', 0.1);
-    AHRS2 = MadgwickAHRS('SamplePeriod', 75e-3, 'Beta', 0.1);
+    AHRS1 = MadgwickAHRS('SamplePeriod', (40e-3)/3, 'Beta', 0.1);
+    AHRS2 = MadgwickAHRS('SamplePeriod', (40e-3)/3, 'Beta', 0.1);
     quaternion1 = zeros(minSize, 4);
     quaternion2 = zeros(minSize, 4);
     for t = 1:minSize
@@ -34,31 +35,20 @@ for i = 1:n
     end
     
     euler1 = quatern2euler(quaternConj(quaternion1)) * (180/pi);	% use conjugate for sensor frame relative to Earth and convert to degrees.
-
-    figure('Name', 'Euler Angles');
-    hold on;
-    plot(1:minSize, euler1(:,1), 'r');
-    plot(1:minSize, euler1(:,2), 'g');
-    plot(1:minSize, euler1(:,3), 'b');
-    title('Euler angles');
-    xlabel('Time (s)');
-    ylabel('Angle (deg)');
-    legend('\phi', '\theta', '\psi');
-    hold off;
-    
     euler2 = quatern2euler(quaternConj(quaternion2)) * (180/pi);	% use conjugate for sensor frame relative to Earth and convert to degrees.
-
-    figure('Name', 'Euler Angles');
+    figure;
     hold on;
     plot(1:minSize, euler2(:,1), 'r');
     plot(1:minSize, euler2(:,2), 'g');
     plot(1:minSize, euler2(:,3), 'b');
-    title('Euler angles');
+    title(filename2);
     xlabel('Time (s)');
     ylabel('Angle (deg)');
     legend('\phi', '\theta', '\psi');
     hold off;
     
+    
+    continue
     csvwrite(['unit_' filename1], [imu1(1:minSize,:), quaternion1, euler1]);
     csvwrite(['unit_' filename2], [imu2(1:minSize,:), quaternion2, euler2]);
     
