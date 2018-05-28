@@ -7,6 +7,7 @@ close all
 
 data = csvread('data_imu_276a_dset1.csv');
 t = csvread('t_imu_276a_dataset1.csv');
+data = [data;zeros(3,size(data,2))];
 data(1:3,:) = data(1:3,:)*9.8; %
 
 plotdata(t,data);
@@ -27,6 +28,11 @@ title('EKF 276a data')
 csvwrite('out_EKF_276a_data.csv',xhat_3);
 save('out_EKF_276a_data.mat','xhat_3');
 
+[xhat_4] = Madgwick(data',t);
+title('Madgwick 276a data')
+csvwrite('out_Madg_276a_data.csv',xhat_4);
+save('out_Madg_276a_data.mat','xhat_4');
+
 %% 1602 updown
 %check units, bias
 dt = 1/75;
@@ -37,7 +43,7 @@ t = t*dt;
 plotdata(t,data);
 title('4D 1602 updown');
 
-[xhat,f] = baselineUKF(data,t);
+[xhat_1,f] = baselineUKF(data,t);
 title('4D 1602 updown');
 csvwrite('out_UKF_4D_1602_updown.csv',xhat_1);
 save('out_UKF_4D_1602_updown.mat','xhat_1');
@@ -52,6 +58,12 @@ title('EKF 1602 updown')
 csvwrite('out_EKF_1602_updown.csv',xhat_3);
 save('out_EKF_1602_updown.mat','xhat_3');
 
+[xhat_4] = Madgwick(data',t);
+title('Madgwick 1602 updown')
+csvwrite('out_Madg_1602_updown.csv',xhat_4);
+save('out_Madg_1602_updown.mat','xhat_4');
+
+
 %% 1608 updown
 %check units, bias
 dt = 1/75;
@@ -61,7 +73,7 @@ t = t*dt;
 
 plotdata(t,data);
 title('4D 1608 updown');
-[xhat,f] = baselineUKF(data,t);
+[xhat_1,f] = baselineUKF(data,t);
 title('4D 1608 updown');
 csvwrite('out_UKF_4D_1608_updown.csv',xhat_1);
 save('out_UKF_4D_1608_updown.mat','xhat_1');
@@ -76,6 +88,11 @@ title('EKF 1608 updown')
 csvwrite('out_EKF_1608_updown.csv',xhat_3);
 save('out_EKF_1608_updown.mat','xhat_3');
 
+[xhat_4] = Madgwick(data',t);
+title('Madgwick 1608 updown')
+csvwrite('out_Madg_1608_updown.csv',xhat_4);
+save('out_Madg_1608_updown.mat','xhat_4');
+
 %% 1640 updown
 %check units, bias
 dt = 1/75;
@@ -85,7 +102,7 @@ t = t*dt;
 
 plotdata(t,data);
 title('4D 1640 updown');
-[xhat,f] = baselineUKF(data,t);
+[xhat_1,f] = baselineUKF(data,t);
 title('4D 1640 updown');
 csvwrite('out_UKF_4D_1640_updown.csv',xhat_1);
 save('out_UKF_4D_1640_updown.mat','xhat_1');
@@ -100,6 +117,10 @@ title('EKF 1640 updown')
 csvwrite('out_EKF_1640_updown.csv',xhat_3);
 save('out_EKF_1640_updown.mat','xhat_3');
 
+[xhat_4] = Madgwick(data',t);
+title('Madgwick 1640 updown')
+csvwrite('out_Madg_1640_updown.csv',xhat_4);
+save('out_Madg_1640_updown.mat','xhat_4');
 
 %% 1651 circle
 %check units, bias
@@ -110,7 +131,7 @@ t = t*dt;
 
 plotdata(t,data);
 title('4D 1651 circle');
-[xhat,f] = baselineUKF(data,t);
+[xhat_1,f] = baselineUKF(data,t);
 title('4D 1651 circle');
 csvwrite('out_UKF_4D_1651_circle.csv',xhat_1);
 save('out_UKF_4D_1651_circle.mat','xhat_1');
@@ -124,3 +145,8 @@ save('out_UKF_7D_1651_circle.mat','xhat_2');
 title('EKF 1651 circle')
 csvwrite('out_EKF_1651_circle.csv',xhat_3);
 save('out_EKF_1651_circle.mat','xhat_3');
+
+[xhat_4] = Madgwick(data',t);
+title('Madgwick 1651 circle')
+csvwrite('out_Madg_1651_circle.csv',xhat_4);
+save('out_Madg_1651_circle.mat','xhat_4');
