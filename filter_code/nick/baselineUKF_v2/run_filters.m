@@ -1,6 +1,8 @@
 clear all
 close all
 
+
+%% 276a
 %as ax ay az wx wy wz as a wide matrix
 
 data = csvread('data_imu_276a_dset1.csv');
@@ -15,7 +17,7 @@ title('4D 276a data')
 csvwrite('out_UKF_4D_276a_data.csv',xhat_1);
 save('out_UKF_4D_276a_data.mat','xhat_1');
 
-%% 
+%% 1602 updown
 %check units, bias
 dt = 1/75;
 data = csvread('unit_imu2_data27_16_02_updown.csv')';
@@ -32,7 +34,7 @@ save('out_UKF_4D_1602_updown.mat','xhat_1');
 
 
 
-%% 
+%% 1608 updown
 %check units, bias
 dt = 1/75;
 data = csvread('unit_imu2_data27_16_08_updown.csv')';
@@ -46,7 +48,7 @@ title('4D 1608 updown');
 csvwrite('out_UKF_4D_1608_updown.csv',xhat_1);
 save('out_UKF_4D_1608_updown.mat','xhat_1');
 
-%% 
+%% 1640 updown
 %check units, bias
 dt = 1/75;
 data = csvread('unit_imu2_data27_16_40_updown.csv')';
@@ -61,7 +63,7 @@ csvwrite('out_UKF_4D_1640_updown.csv',xhat_1);
 save('out_UKF_4D_1640_updown.mat','xhat_1');
 
 
-%% 
+%% 1651 circle
 %check units, bias
 dt = 1/75;
 data = csvread('unit_imu2_data27_16_51_circle.csv')';
