@@ -1,19 +1,21 @@
-function [ H ] = EKF_H( state )
-%UNTITLED9 Summary of this function goes here
+function [ z ] = EKF_h( state )
+%UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
 
-% H = zeros(3,4);
-g=9.8;
+g = 9.8;
 
-q1 = state(1);
-q2 = state(2);
-q3 = state(3);
-q4 = state(4);
+% z = zeros(3,1);
+% 
+% q1 = state(1);
+% q2 = state(2);
+% q3 = state(3);
+% q4 = state(4);
+% 
+% z(1) = -2*q4*q2*g -2*q3*q1*g;
+% z(2) = -2*q4*q3*g +2*q2*q1*g;
+% z(3) = g * (-q4^2 + q3^2 + q2^2 - q1^2);
 
-H = 2*g* ...
-[   q3  -q4 q1  -q2;
-    -q2 -q1 -q4 -q3;
-    q1  q2  q3  q4];
-
+z = quatproduct(quatproduct(quatinv(state), [0 0 0 -g]'), state);
+z = z(2:4);
 end
 
