@@ -1,7 +1,7 @@
-function [x_hatM,fig] = UKF_4_mag(data,t)
-
+function [x_hatM,fig] = UKF_4_mag(data,t,b,fig)
+%run inspect stationary to get data in variable "data"
 %measurements AxAyAz from I IMU
-z = [data(1:3,:);data(7:9)]; %measurements
+z = [data(1:3,:);data(7:9,:)]; %measurements
 u = data(4:6,:);%data from 276a
 
 %% states
@@ -14,7 +14,7 @@ n_meas = size(z,1);
 n_steps= size(data,2);
 
 g_quat = [0;0;0;9.8];%gravity vector, units of m/s^2
-mg_quat = [0;] % needs work
+b_quat = [0;b]; % needs work
 %M indicates storage variable
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
@@ -43,11 +43,15 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
+
 %following worked for 276A
 q = .001;
 r = .01*9.8^2;
 Q = q*eye(n_state_vect);
 R = r*eye(n_meas);
+
+%according to stationary est: for R
+
 
 %weights for averaging 
 alpha_mu = 0; %or 0
@@ -72,12 +76,12 @@ for itr = 1: n_steps-1
         temp = quatproduct([Y(1,i_sp);-Y(2:4,i_sp)],tempg);
         Z(1:3,i_sp) = temp(2:4);
                 
-        tempmg = quatproduct(mg_quat,Y(:,i_sp));
+        tempmg = quatproduct(b_quat,Y(:,i_sp));
         temp = quatproduct([Y(1,i_sp);-Y(2:4,i_sp)],tempmg);
         Z(4:6,i_sp) = temp(2:4);
     end 
     
-    [z_ap, P_zz] = Z_stats(Z,alpha_mu,alpha_cov, z_apM(:,itr));
+    [z_ap, P_zz] = Z_stats_4_mag(Z,alpha_mu,alpha_cov, z_apM(:,itr));
     
     nu = z(:,itr+1) - z_ap;
     P_nu = P_zz + R;
@@ -121,7 +125,7 @@ end
 
 eulers = 180/pi*quatern2euler(x_hatM');
 
-fig = figure;
+figure(fig)
 subplot(3,1,1)
 plot(t,eulers(:,1));
 subplot(3,1,2)
