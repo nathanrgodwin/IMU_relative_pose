@@ -38,7 +38,7 @@ for data_idx = data_idxs
         data = datas{data_idx};
         time = times{data_idx};
         meth = meths{meth_idx};
-        if strcmp(class(meth_args{1}),'cell')
+        if strcmp(class(meth_args{meth_idx}),'cell')
             [states{data_idx, meth_idx}, covars{data_idx, meth_idx}] = meth(data, time, meth_args{meth_idx}{1}, meth_args{meth_idx}{2});
         else
             [states{data_idx, meth_idx}, covars{data_idx, meth_idx}] = meth(data, time);

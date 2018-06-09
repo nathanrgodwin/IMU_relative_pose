@@ -9,7 +9,7 @@ for data_idx = [data_idxs(1), data_idxs]
         plot(times{data_idx},temp_state(idx,:),'k');
         if idx==1
             title(sprintf('set %g: %s',data_idx,names{data_idx}), 'Interpreter', 'none');
-            fprintf('sdfsdf\n');
+%             fprintf('sdfsdf\n');
         end
     end
     for meth_idx = 1:length(meths)
@@ -21,11 +21,10 @@ for data_idx = [data_idxs(1), data_idxs]
         end
     end
     
-    if fc==1
-        temp_names = 1:length(meths);
+    
+        temp_names = {'truth'};
         for i = 1:length(meths)
-            temp_names(i) = func
-            legend()
+            temp_names{i+1} = func2str(meths{i});
         end
-    end
+        legend(temp_names)
 end
