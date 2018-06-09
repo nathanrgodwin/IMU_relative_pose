@@ -21,15 +21,17 @@ end
 meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4,@UKF4};
 meth_args = {};
 meth_args{length(meths)} = [];
-% meth_args{1} = [];
-% meth_args{2} = {eye(3)*0.001, eye(3)};
-% meth_args{3} = {eye(3), eye(3)*0.001};
-% meth_args{4} = [];
-% meth_args{5} = {eye(3)*0.001, eye(3)};
-% meth_args{6} = {eye(3), eye(3)*0.001};
+meth_args{1} = [];
+meth_args{2} = {eye(3)*0.001, eye(3)};
+meth_args{3} = {eye(3), eye(3)*0.001};
+meth_args{4} = [];
+meth_args{5} = {eye(3)*0.001, eye(3)};
+meth_args{6} = {eye(3), eye(3)*0.001};
 
 states = {};
 covars = {};
+mse = {};
+total_mse = {};
 
 for data_idx = data_idxs
     for meth_idx = 1:length(meths)
@@ -47,5 +49,38 @@ for data_idx = data_idxs
         fprintf(sprintf('%g\n',cputime));
     end    
 end
-save(datestr(datetime, 'mmddHHMM'));
+
+for data_idx = data_idxs
+    temp_truths = truths{data_idx};
+    temp_truths = quat2aa(temp_truths(1:4,:));
+    for meth_idx = 1:length(meths)
+        temp_state = states{data_idx, meth_idx};
+        temp_state = quat2aa(temp_state(1:4,:));
+        mse{data_idx, meth_idx} = sum((temp_truths-temp_state).^2, 2) ./ size(temp_state,2);
+        total_mse{data_idx, meth_idx} = sum(mse{data_idx, meth_idx})/3;
+    end
+end
+timestamp = datestr(datetime, 'mmddHHMM');
+fileID = fopen(strcat(timestamp,'.txt'),'w');
+
+func_mse = sum(cell2mat(total_mse),1)/size(cell2mat(total_mse),2);
+for meth_idx = 1:length(meths)
+    fprintf(fileID, sprintf('method:%s\ttotalmse:%d\n', func2str(meths{meth_idx}), func_mse(meth_idx)));
+end
+data_mse = sum(cell2mat(total_mse),2)/size(cell2mat(total_mse),1);
+for i = 1:length(data_idxs)
+    data_idx = data_idxs(i);
+    fprintf(fileID, sprintf('dataset %g: %s\tavg_mse:%d\n',data_idx,names{data_idx},data_mse(i)));
+end
+
+for data_idx = data_idxs
+    fprintf(fileID, sprintf('dataset %g: %s\n',data_idx,names{data_idx}));
+    for meth_idx = 1:length(meths)
+        fprintf(fileID, sprintf('method:%s\ttotalmse:%d\n', func2str(meths{meth_idx}), total_mse{data_idx, meth_idx}));
+    end
+end
+
+
+save(timestamp);
+
 result_accuracy

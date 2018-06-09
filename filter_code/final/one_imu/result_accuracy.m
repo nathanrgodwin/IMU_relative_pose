@@ -19,12 +19,10 @@ for data_idx = [data_idxs(1), data_idxs]
             subplot(3,1,idx);  hold on;
             plot(times{data_idx},temp_state(idx,:));
         end
+    end   
+    temp_names = {'truth'};
+    for i = 1:length(meths)
+        temp_names{i+1} = func2str(meths{i});
     end
-    
-    
-        temp_names = {'truth'};
-        for i = 1:length(meths)
-            temp_names{i+1} = func2str(meths{i});
-        end
-        legend(temp_names)
+    legend(temp_names)
 end
