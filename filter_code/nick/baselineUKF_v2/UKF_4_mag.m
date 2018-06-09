@@ -1,4 +1,4 @@
-function [x_hatM,fig] = UKF_4_mag(data,t,b,fig)
+function [x_hatM] = UKF_4_mag(data,t,b,fig)
 %run inspect stationary to get data in variable "data"
 %measurements AxAyAz from I IMU
 z = [data(1:3,:);data(7:9,:)]; %measurements

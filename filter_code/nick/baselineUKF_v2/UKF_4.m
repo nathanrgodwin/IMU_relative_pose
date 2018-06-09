@@ -1,4 +1,4 @@
-function [x_hatM,fig] = UKF_4(data,t)
+function [x_hatM] = UKF_4(data,t,fig)
 
 %measurements AxAyAz from I IMU
 z = data(1:3,:); %measurements
@@ -115,7 +115,7 @@ end
 
 eulers = 180/pi*quatern2euler(x_hatM');
 
-fig = figure;
+figure(fig);
 subplot(3,1,1)
 plot(t,eulers(:,1));
 hold on
