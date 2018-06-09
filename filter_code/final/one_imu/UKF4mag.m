@@ -17,7 +17,7 @@ n_meas = size(z,1);
 n_steps= size(data,2);
 
 g_quat = [0;0;0;9.8];%gravity vector, units of m/s^2
-b_quat = [0;b]; % needs work
+b_quat = [0;b];
 %M indicates storage variable
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
@@ -65,7 +65,7 @@ alpha_cov = 2; % or 2
 for itr = 1: n_steps-1
     dt = t(itr+1) - t(itr);
     %PREDICTION
-    X = gen4_sigma_points(x_hatM(:,itr),P_hatM(:,:,itr) + Q); 
+    X = gen_sigma_points4(x_hatM(:,itr),P_hatM(:,:,itr) + Q); 
 %     figure(1)
 %     surf(X); xlabel('x');ylabel('y');title('X');
     for i_sp=1:n_sigma_points
@@ -73,7 +73,7 @@ for itr = 1: n_steps-1
     end 
 %     figure(2)
 %     surf(Y); xlabel('x');ylabel('y');title('Y');
-    [x_ap, P_ap, W_prime] = Y_stats(Y,alpha_mu,alpha_cov,x_hatM(:,itr));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
+    [x_ap, P_ap, W_prime] = Y_stats4(Y,alpha_mu,alpha_cov,x_hatM(:,itr));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE  
     for i_sp = 1:n_sigma_points
@@ -86,7 +86,7 @@ for itr = 1: n_steps-1
         Z(4:6,i_sp) = temp(2:4);
     end 
     
-    [z_ap, P_zz] = Z_stats_4_mag(Z,alpha_mu,alpha_cov, z_apM(:,itr));
+    [z_ap, P_zz] = Z_stats4_mag(Z,alpha_mu,alpha_cov);
     
     nu = z(:,itr+1) - z_ap;
     P_nu = P_zz + R;
@@ -128,15 +128,15 @@ end
 % surf(x_hatM,'edgecolor', 'None');
 % plot(t,x_hatM);
 
-eulers = 180/pi*quatern2euler(x_hatM');
-
-figure(fig)
-subplot(3,1,1)
-plot(t,eulers(:,1));
-subplot(3,1,2)
-plot(t,eulers(:,2));
-subplot(3,1,3)
-plot(t,eulers(:,3));
+% eulers = 180/pi*quatern2euler(x_hatM');
+% 
+% figure(fig)
+% subplot(3,1,1)
+% plot(t,eulers(:,1));
+% subplot(3,1,2)
+% plot(t,eulers(:,2));
+% subplot(3,1,3)
+% plot(t,eulers(:,3));
 
 % x_hat_python = csvread('x_hat_from_UKFpython.csv');
 % x_hat_err = x_hat_python - x_hatM;
