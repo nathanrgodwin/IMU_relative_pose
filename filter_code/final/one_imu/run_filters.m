@@ -21,12 +21,12 @@ end
 meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4,@UKF4};
 meth_args = {};
 meth_args{length(meths)} = [];
-meth_args{1} = [];
-meth_args{2} = {eye(3)*0.001, eye(3)};
-meth_args{3} = {eye(3), eye(3)*0.001};
-meth_args{4} = [];
-meth_args{5} = {eye(3)*0.001, eye(3)};
-meth_args{6} = {eye(3), eye(3)*0.001};
+% meth_args{1} = [];
+% meth_args{2} = {eye(3)*0.001, eye(3)};
+% meth_args{3} = {eye(3), eye(3)*0.001};
+% meth_args{4} = [];
+% meth_args{5} = {eye(3)*0.001, eye(3)};
+% meth_args{6} = {eye(3), eye(3)*0.001};
 
 states = {};
 covars = {};
