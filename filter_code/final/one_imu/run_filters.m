@@ -18,15 +18,16 @@ for data_idx = data_idxs
 end
 
 % meths = {@UKF4, @UKF7};
-meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4,@UKF4};
+% meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4};
+meths = {@MADG};
 meth_args = {};
 meth_args{length(meths)} = [];
-meth_args{1} = [];
-meth_args{2} = {eye(3)*0.001, eye(3)};
-meth_args{3} = {eye(3), eye(3)*0.001};
-meth_args{4} = [];
-meth_args{5} = {eye(3)*0.001, eye(3)};
-meth_args{6} = {eye(3), eye(3)*0.001};
+% meth_args{1} = [];
+% meth_args{2} = {eye(3)*0.001, eye(3)};
+% meth_args{3} = {eye(3), eye(3)*0.001};
+% meth_args{4} = [];
+% meth_args{5} = {eye(3)*0.001, eye(3)};
+% meth_args{6} = {eye(3), eye(3)*0.001};
 
 states = {};
 covars = {};
