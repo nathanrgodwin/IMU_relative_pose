@@ -60,7 +60,7 @@ alpha_cov = 2; % or 2
 for itr = 1: n_steps-1
     dt = t(itr+1) - t(itr);
     %PREDICTION
-    X = gen_sigma_points(x_hatM(:,itr),P_hatM(:,:,itr) + Q); 
+    X = gen4_sigma_points(x_hatM(:,itr),P_hatM(:,:,itr) + Q); 
 %     figure(1)
 %     surf(X); xlabel('x');ylabel('y');title('X');
     for i_sp=1:n_sigma_points

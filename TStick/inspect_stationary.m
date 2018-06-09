@@ -1,4 +1,4 @@
-function [t,vicon,data,data_centered_1,data_centered_2,mg_quat] = inspect_stationary() 
+function [t,vicon,data,data_centered_1,data_centered_2,b_vect] = inspect_stationary() 
 
 set(0,'DefaultFigureWindowStyle','docked')
 
@@ -76,4 +76,4 @@ data_centered_1 = data_centered_1(:,6:end)';
 data_centered_2 = data_centered_2(:,6:end)';
 
 %% take avg value of mag to be the expected value 
-mg_quat = [0, mean(data_all(:,12:14),1)]';
+b_vect = mean(data_all(:,12:14),1)';
