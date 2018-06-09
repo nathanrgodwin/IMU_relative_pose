@@ -1,6 +1,5 @@
-function [ X ] = gen7_sigma_points(mu,covar)
+function [ X ] = gen4_sigma_points(mu,covar)
 %store each point as a column in X
-%state is 23, including 2 quats. but their covar expressed in 3 each
 %instead of 4 
 
 [~,n_dim] = size(covar); % 18 
@@ -25,12 +24,6 @@ for i=1:(2*n_dim)
     %convert first 3 els to quat, add mean to each point
     X(1:4,i+1) = aa2quat(W(1:3,i));
     X(1:4,i+1) = quatproduct(mu(1:4),X(1:4,i+1));
-%     %same for next quat
-%     X(5:8,i+1) = aa2quat(W(4:6,i));
-%     X(5:8,i+1) = quatproduct(mu(5:8),X(5:8,i+1));
-%     %add mean to other elements normally
-    X(5:7,i+1) = mu(5:7) + W(4:6,i);
 end 
 
 end
-
