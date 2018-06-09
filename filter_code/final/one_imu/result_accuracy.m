@@ -1,6 +1,6 @@
 fc = 0;
 
-for data_idx = [data_idxs(1), data_idxs]
+for data_idx = data_idxs
     fc=fc+1;    figure();
     temp_state = truths{data_idx};
     temp_state = quat2aa(temp_state(1:4,:));

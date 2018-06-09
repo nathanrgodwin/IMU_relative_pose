@@ -7,7 +7,8 @@ datas = {};
 times = {};
 truths = {};
 data_idxs = 1:num_data;
-data_idxs = [1,2,3,9,11,12,13,14,15];
+% data_idxs = [1,2,3,9,11,12,13,14,15];
+data_idxs = [1,2,3,4,5, 9,12, 15, 20, 27:29];
 
 for data_idx = data_idxs
     names{data_idx} = tstick_struct(data_idx).name;
@@ -19,7 +20,7 @@ end
 
 % meths = {@UKF4, @UKF7};
 % meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4};
-meths = {@MADG};
+meths = {@EKF4, @EKF4, @EKF4, @EKF4, @EKF4};
 meth_args = {};
 meth_args{length(meths)} = [];
 % meth_args{1} = [];
@@ -28,6 +29,15 @@ meth_args{length(meths)} = [];
 % meth_args{4} = [];
 % meth_args{5} = {eye(3)*0.001, eye(3)};
 % meth_args{6} = {eye(3), eye(3)*0.001};
+
+meth_args{1} = {eye(3)*0.0001, eye(3)*100};
+meth_args{2} = {eye(3)*0.0001, eye(3)*10};
+meth_args{3} = {eye(3)*0.0001, eye(3)};
+meth_args{4} = {eye(3)*0.001, eye(3)};
+meth_args{5} = {eye(3)*0.01, eye(3)};
+meth_args{6} = {eye(3)*0.1, eye(3)};
+
+
 
 states = {};
 covars = {};
@@ -63,6 +73,7 @@ for data_idx = data_idxs
 end
 timestamp = datestr(datetime, 'mmddHHMM');
 fileID = fopen(strcat(timestamp,'.txt'),'w');
+save(timestamp);
 
 func_mse = sum(cell2mat(total_mse),1)/size(cell2mat(total_mse),2);
 for meth_idx = 1:length(meths)
@@ -82,6 +93,5 @@ for data_idx = data_idxs
 end
 
 
-save(timestamp);
 
 result_accuracy
