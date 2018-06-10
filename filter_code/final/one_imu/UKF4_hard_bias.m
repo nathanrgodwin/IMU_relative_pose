@@ -1,4 +1,4 @@
-function [x_hatM, P_hatM] = UKF4_hard_bias(data,t,mean_a,mean_w,Q,R)
+function [x_hatM, P_hatM] = UKF4_hard_bias(data,t,Q,R)
 
 if size(data,1) > 8
     data = data(1:6,:);
