@@ -1,12 +1,22 @@
-function [x_hatM, P_hatM] = UKF4mag(data,t,Q,R)
+function [x_hatM, P_hatM] = UKF4mag_hard_bias(data,t,Q,R)
 %run inspect stationary to get data in variable "data"
 %measurements AxAyAz from I IMU
+
+mean_a = [-0.0119; 0.1941; 9.7937];
+mean_w = [0.0037; -0.0023; 0.0010];
+
 z = [data(1:3,:);data(7:9,:)]; %measurements
 u = data(4:6,:);%data from 276a
-b = [...
-  -0.026163936432742;
-   0.400463492343292;
-  -0.901099835848857];
+
+%subtract bias
+z(1:3,:) = z(1:3,:) - mean_a;
+z(3,:) = z(3,:) + 9.81;
+u = u - mean_w;
+
+% b = [...
+%   -0.026163936432742;
+%    0.400463492343292;
+%   -0.901099835848857];
 
 b = data(7:9,1);
 %% states
