@@ -5,7 +5,7 @@ function [ mu, cov, W_prime ] = Y_stats7( Y, alpha_mu, alpha_cov, mu_0)
 
 Y_q1 = Y(1:4,:);
 % Y_q2 = Y(5:8,:);
-Y_vects = Y(5:7,:);
+Y_vects = Y(5:end,:);
 
 [mu_q1, cov_q1, W_prime_q1] = quat_stats(Y_q1, alpha_mu,alpha_cov,mu_0(1:4));
 % [mu_q2, cov_q2, W_prime_q2] = quat_stats(Y_q2, alpha_mu,alpha_cov,mu_0(5:8));
