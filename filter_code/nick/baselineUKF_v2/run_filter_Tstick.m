@@ -4,8 +4,8 @@
 
 %% stationary
 
-%[t,vicon,data,data_centered_1,data_centered_2,b_vect,mean_a,mean_w,mean_b] = inspect_stationary();
-
+[t,GT,data,data_centered_1,data_centered_2,mean_a,mean_w,mean_b,var_a,var_w,var_b, cov_a,cov_w,cov_b, cov_ab] = inspect_stationary();
+%b_vect is the same as mean_b
 %% 
 fig = figure;
 [x_hat_i]=simple_integration(data,t,fig);
@@ -25,7 +25,5 @@ fig_2 = figure;
 [x_hat_mag_2] = UKF_4_mag(data_centered_2,t,b_vect,fig_2);
 
 title('centered gyro and accel')
-
-%% non-stationary
 
 

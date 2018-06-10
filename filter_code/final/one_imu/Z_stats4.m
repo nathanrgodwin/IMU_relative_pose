@@ -1,4 +1,6 @@
-function [ z_mean,covar,Z_prime ] = Z_stats4( Z,alpha_mu,alpha_cov,z0)
+function [ z_mean,covar,Z_prime ] = Z_stats4( Z,alpha_mu,alpha_cov)
+%for UKF4 no mag
+
 % Z is a column of predicted meas
 % z contains quats 
 Z_vect = Z(1:3,:);

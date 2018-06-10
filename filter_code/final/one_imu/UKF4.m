@@ -77,7 +77,7 @@ for itr = 1: n_steps-1
         Z(:,i_sp) = temp(2:4);
     end
     
-    [z_ap, P_zz] = Z_stats4(Z,alpha_mu,alpha_cov, z_apM(:,itr));
+    [z_ap, P_zz] = Z_stats4(Z,alpha_mu,alpha_cov);
     
     nu = z(:,itr+1) - z_ap;
     P_nu = P_zz + R;

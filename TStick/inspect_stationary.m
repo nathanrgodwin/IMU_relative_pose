@@ -1,4 +1,6 @@
-function [t,vicon,data,data_centered_1,data_centered_2,b_vect] = inspect_stationary() 
+function [t,vicon,data,data_centered_1,data_centered_2,mean_a,mean_w,b_vect,var_a,var_w,var_b,cov_a,cov_w,cov_b,cov_ab] = inspect_stationary() 
+
+%plots each meas signal
 
 set(0,'DefaultFigureWindowStyle','docked')
 
@@ -6,9 +8,16 @@ data_all = csvread('TStick_Test01_Static.csv', 2,0);
 
 t = data_all(:,1); 
 vicon = data_all(:,2:5);
+
+%% plotting 
+
 acc = data_all(:,6:8);
+cov_a = cov(acc);
 gyro = data_all(:,9:11);
+cov_w = cov(gyro);
 mag = data_all(:,12:14);
+cov_b = cov(mag);
+cov_ab = cov([acc,mag]);
 
 figure;
 subplot(3,1,1);
@@ -61,19 +70,25 @@ title('norms, mag')
 
 %% subtract biases in gyro
 data_centered_1 = data_all;
-data_centered_1(:,9) = data_all(:,6) - mean(data_all(:,6));
-data_centered_1(:,10) = data_all(:,6) - mean(data_all(:,6));
-data_centered_1(:,11) = data_all(:,6) - mean(data_all(:,6));
 
+mean_w = mean(data_all(:,9:11,1))';
+data_centered_1(:,9:11) = data_all(:,9:11) - mean_w';
+var_w = std(data_centered_1(:,9:11),0,1)';
 %% subtract possible bias in accel
 data_centered_2 = data_centered_1;
-data_centered_2(:,6) = data_all(:,6) - mean(data_all(:,6));
-data_centered_2(:,7) = data_all(:,7) - mean(data_all(:,7));
-data_centered_2(:,8) = data_all(:,8) - (mean(data_all(:,8))-9.81);
 
+mean_a = mean(data_all(:,6:8),1)';
+
+data_centered_2(:,6:8) = data_all(:,6:8) - mean_a';
+data_centered_2(:,8) = data_centered_2(:,8) + 9.81;
+
+var_a = std(data_centered_2(:,6:8),0,1)';
+
+%% now ignore the time and quat
 data = data_all(:,6:end)';
 data_centered_1 = data_centered_1(:,6:end)';
 data_centered_2 = data_centered_2(:,6:end)';
 
 %% take avg value of mag to be the expected value 
 b_vect = mean(data_all(:,12:14),1)';
+var_b =  std(data_all(:,12:14),0,1)';

@@ -1,4 +1,4 @@
-function [ z_mean,covar,Z_prime ] = Z_stats7( Z,alpha_mu,alpha_cov,z0)
+function [ z_mean,covar,Z_prime ] = Z_stats7( Z,alpha_mu,alpha_cov)
 % Z is a column of predicted meas
 % z contains quats 
 Z_vect = Z(1:6,:);
