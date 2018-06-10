@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{multicol}
+%\usepackage{placeins}
+\usepackage{caption}
+%\usepackage{epstopdf}
+\usepackage{subcaption}
+\usepackage{url}
+%\usepackage{bbm}
+\usepackage{bm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{listings}
+%\usepackage{color}
+
+\usepackage{graphicx} %% include pictures and plots
+\graphicspath{ {./}}
+
+\begin{document}
+
+$$
+\bm{x}_{k+1} = \bm{a}(\bm{x}_k,\bm{w}_k) 
+= \bm{q}_k \otimes \bm{q}_\triangle + \left [ \cos\left(\frac{\left \| \bm{w} \right \|}{2}\right), \bm{w}^T \sin\left(\frac{\left \| \bm{w} \right \|}{2}\right) \right]^T    
+$$
+
+\begin{align*}
+A = \frac{\partial \bm{a} }{\partial \bm{x}} = \begin{bmatrix}
+q_{\triangle w} &  -q_{\triangle x} &  -q_{\triangle y} & -q_{\triangle z}\\ 
+q_{\triangle x} &   q_{\triangle w} &   q_{\triangle z} & -q_{\triangle y}\\ 
+q_{\triangle y} &  -q_{\triangle z} &   q_{\triangle w} &  q_{\triangle x}\\ 
+q_{\triangle z} &   q_{\triangle y} &  -q_{\triangle x} &  q_{\triangle w}
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+Q = \frac{\partial \bm{a} }{\partial \bm{w}} = \begin{bmatrix}
+\frac{-w_1 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&  
+\frac{-w_2 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&  
+\frac{-w_3 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+\\ 
+\sin \left( \frac{\left \| \bm{w} \right \|}{2} \right) + \frac{w_2^2 \cos \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&
+\frac{w_2 w_1 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&   
+\frac{w_3 w_1 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+\\ 
+\frac{w_1 w_2 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&  
+\sin \left( \frac{\left \| \bm{w} \right \|}{2} \right) + \frac{w_2^2 \cos \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&   
+\frac{w_3 w_2 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+\\ 
+\frac{w_1 w_3 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&   
+\frac{w_2 w_3 \sin \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+&  
+\sin \left( \frac{\left \| \bm{w} \right \|}{2} \right) + \frac{w_3^2 \cos \left( \frac{\left \| \bm{w} \right \|}{2}\right)}{2 \left \| \bm{w} \right \|}
+\end{bmatrix}
+\end{align*}
+
+
+
+\begin{align*}
+\bm{z}_k = \bm{h}(\bm{x}_k, \bm{v}_k) = \bm{q}_k^{-1} \otimes \begin{bmatrix}
+0\\ 0\\ 0\\ -g \end{bmatrix} \otimes \bm{q}_k + \bm{v}_k
+\end{align*}
+
+
+\begin{align*}
+H = \frac{\partial \bm{h} }{\partial \bm{v}} = 2 g \begin{bmatrix}
+q_3 &   -q_4 &   q_1  & -q_2  \\
+-q_2 &   -q_1 &   q_4  & -q_3  \\
+q_1 &   q_2 &   q_3  & -q_4  
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+R = \frac{\partial \bm{h} }{\partial \bm{v}} = \bm{I}
+\end{align*}
+
+% = \bm{a}(\bm{q}_t,\bm{w}_t) = \begin{bmatrix} q_w\\ q_x\\ q_y\\ q_z \end{bmatrix}_t + \begin{bmatrix} w_1\\ w_2\\ w_3 \end{bmatrix}_t
+
+\end{document}
+%$$
+%\begin{array}{rcl} \mu_n &=& \displaystyle\Sigma_0 \left(\Sigma_0 + \frac{1}{n}\Sigma\right)^{-1} \mu  + \frac{1}{n}\Sigma\left(\Sigma_0+\frac{1}{n}\Sigma\right)^{-1}\mu_0 \\
+%\Sigma_n & =&\displaystyle \Sigma_0\left(\Sigma_0 + \frac{1}{n}\Sigma\right)^{-1}\frac{1}{n}\Sigma
+%\end{array}
+%$$
+%
+%The  parameters of the predicitive distribution used in the Bayesian method are as follows:
+%$$
+%\begin{array}{rcl} \mu_{predictive} &=& \mu_n\\
+%\Sigma_{predictive} & =& \Sigma + \Sigma_n\\
+%\end{array}
+%$$
+

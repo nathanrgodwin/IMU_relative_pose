@@ -33,9 +33,9 @@ classdef MadgwickAHRS < handle
             Accelerometer = Accelerometer / norm(Accelerometer);	% normalise magnitude
 
             % Normalise magnetometer measurement
-            if(norm(Magnetometer) == 0), return; end	% handle NaN
-            Magnetometer = Magnetometer / norm(Magnetometer);	% normalise magnitude
-
+            if(norm(Magnetometer) ~= 0)
+                Magnetometer = Magnetometer / norm(Magnetometer);	% normalise magnitude
+            end
             % Reference direction of Earth's magnetic feild
             h = quaternProd(q, quaternProd([0 Magnetometer], quaternConj(q)));
             b = [0 norm([h(2) h(3)]) 0 h(4)];

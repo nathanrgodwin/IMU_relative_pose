@@ -1,4 +1,4 @@
-function [ X ] = gen_sigma_points(mu,covar)
+function [ X ] = gen7_sigma_points(mu,covar)
 %store each point as a column in X
 %state is 23, including 2 quats. but their covar expressed in 3 each
 %instead of 4 
