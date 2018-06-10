@@ -10,7 +10,7 @@ for data_idx = data_idxs
         subplot(3,1,idx);  hold on;
         plot(times{data_idx},temp_state(idx,:),'k','LineWidth',1.5);
         if idx==1
-            title(sprintf('set %g: %s',data_idx,names{data_idx}), 'Interpreter', 'none');
+            title(sprintf('set %g: %s',data_idx,names{data_idx}(1:end-4)), 'Interpreter', 'none');
 %             fprintf('sdfsdf\n');
         end
     end
