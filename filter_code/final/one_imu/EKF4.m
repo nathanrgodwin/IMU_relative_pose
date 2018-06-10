@@ -16,9 +16,9 @@ end
 init_state = [1 0 0 0]';
 init_Sigma = eye(4)';
 
-z = data(1:3,:);
+meas = data(1:3,:);
 gyro = data(4:6,:);
-[~, len] = size(z);
+[~, len] = size(meas);
 
 x_hatM = zeros(4,len);
 x_hatM(:,1) = init_state;
@@ -41,7 +41,7 @@ for i = 1:len-1
     H = EKF_H(x_ap);
     R = EKF_R;
     K = (Sigma_ap * H') / (H*Sigma_ap*H' + R*V*R');
-    z = EKF_hh(x_t);
+    z = meas(:,i);
     
     x_hat = x_ap + K * (z - EKF_hh(x_ap));
     x_hat = x_hat./ norm(x_hat);
