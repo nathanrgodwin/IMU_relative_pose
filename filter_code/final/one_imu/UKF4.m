@@ -48,7 +48,7 @@ if nargin < 4
     %noise covariances. assumed diagonal
     %orientation, process noise will be in rot vel perturbations converted to quats
     q = .001;
-    r = .01*9.8^2;
+    r = 1;
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
 end
