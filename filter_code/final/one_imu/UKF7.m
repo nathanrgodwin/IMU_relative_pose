@@ -47,10 +47,16 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
-q = .001;
-r = .01*9.8^2;
-Q = q*eye(n_state_vect);
-R = r*eye(n_meas);
+
+if nargin < 4
+    %noise covariances. assumed diagonal
+    %orientation, process noise will be in rot vel perturbations converted to quats
+    q = .001;
+    r = .01*9.8^2;
+    Q = q*eye(n_state_vect);
+    R = r*eye(n_meas);
+end
+
 %weights for averaging 
 alpha_mu = 0; %or 0
 alpha_cov = 2; % or 2 
