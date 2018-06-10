@@ -27,6 +27,7 @@ x_hatM(:,1) = init_state;
 SigmaM = zeros(4,4,len);
 SigmaM(:,:,1) = init_Sigma;
 
+mag = data(7:9,1);
 
 for i = 1:len-1
     dt = t(i+1) - t(i);
@@ -39,12 +40,12 @@ for i = 1:len-1
     x_ap = EKF_aa(x_t, gyro(:,i)*dt);
     Sigma_ap = A * Sigma_tt * A' + Q*W*Q';
     
-    H = EKF_H(x_ap,'mag=true');
-    R = EKF_R(x_ap,'mag=true');
+    H = EKF_H(x_ap,mag);
+    R = EKF_R(x_ap,mag);
     K = (Sigma_ap * H') / (H*Sigma_ap*H' + R*V*R');
     z = meas(:,i);
     
-    x_hat = x_ap + K * (z - EKF_hh(x_ap,'mag'));
+    x_hat = x_ap + K * (z - EKF_hh(x_ap,mag));
     x_hat = x_hat./ norm(x_hat);
     Sigma_hat = (eye(4) - K*H)*Sigma_ap;
     
