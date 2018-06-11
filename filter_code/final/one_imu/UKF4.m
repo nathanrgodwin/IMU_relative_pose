@@ -49,6 +49,8 @@ if nargin < 4
     %orientation, process noise will be in rot vel perturbations converted to quats
     q = 1e-8;
     r = 1e0;
+    q = 1e-12;
+    r = 1e-4;
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
 end
