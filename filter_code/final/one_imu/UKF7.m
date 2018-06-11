@@ -1,4 +1,4 @@
-function [x_hatM, P_hatM] = UKF7(data,t)
+function [x_hatM, P_hatM] = UKF7(data,t,Q,R)
 
 if size(data,1) > 8
     data = data(1:6,:);
@@ -51,10 +51,15 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 if nargin < 4
     %noise covariances. assumed diagonal
     %orientation, process noise will be in rot vel perturbations converted to quats
-    q = .001;%angvel
-    r = 1;%accel
-    Q = .001*eye; %arbitrary amount of error
-    R = blkdiag(r*eye(3),q*eye(3));
+%     q = .001;%angvel
+%     r = 1;%accel
+%     Q = .001*eye; %arbitrary amount of error
+%     R = blkdiag(r*eye(3),q*eye(3));
+    
+    Q = blkdiag(diag([1 1 0.1]*1e-4),eye(3)*1e-5);
+    
+    R = blkdiag(eye(3)*1e2,eye(3)*1e2);
+    
 end
 
 %weights for averaging 

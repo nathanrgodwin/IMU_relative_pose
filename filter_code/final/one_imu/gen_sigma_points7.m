@@ -29,7 +29,7 @@ for i=1:(2*n_dim)
 %     X(5:8,i+1) = aa2quat(W(4:6,i));
 %     X(5:8,i+1) = quatproduct(mu(5:8),X(5:8,i+1));
 %     %add mean to other elements normally
-    X(5:7,i+1) = mu(5:7) + W(4:6,i);
+    X(5:end,i+1) = mu(5:end) + W(4:end,i);
 end 
 
 end
