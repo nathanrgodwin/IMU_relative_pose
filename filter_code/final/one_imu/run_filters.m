@@ -2,14 +2,12 @@ tstick_path = '../../../TStick/';
 tstick_struct = dir(strcat(tstick_path, '/*.csv'));
 num_data = size(tstick_struct);
 
-names = {};
-datas = {};
-times = {};
-truths = {};
+names = {}; datas = {}; times = {}; truths = {};
 data_idxs = 1:num_data;
 % data_idxs = [1,2,3,9,11,12,13,14,15];
-% data_idxs = [1,2,3,4,5, 9,12, 15, 20, 27:29];
-data_idxs = [2];
+% data_idxs = [3,9,15,24,27:29];
+% data_idxs = [1,2,9,12,27:29];
+data_idxs = [3,9,27];
 
 for data_idx = data_idxs
     names{data_idx} = tstick_struct(data_idx).name;
@@ -19,34 +17,32 @@ for data_idx = data_idxs
     datas{data_idx} = temp(:,6:14)';
 end
 
-% meths = {@UKF4, @UKF7};
-% meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4};
+% meths = {@UKF4, @EKF4, @UKF7};
+meths = {@UKF7bias,@UKF7bias,@UKF7bias,@UKF7bias,@UKF7bias,@UKF7bias,@UKF7bias,@EKF4};
+% meths = {@UKF7,@UKF7,@UKF7,@EKF4};
+% meths = {@EKF4,@EKF4,@EKF4,@EKF4,@EKF4,@EKF4,@EKF4};
 % meths = {@EKF4mag, @EKF4, @EKF4, @EKF4, @EKF4};
 % meths = {@EKF4mag,@EKF4mag, @EKF4};
-meths = {@UKF4bias, @Integration, @EKF4};
+% meths = {@UKF4, @UKF4,@UKF4,@UKF4,@UKF4,@UKF4};
 
 meth_args = {};
 meth_args{length(meths)} = [];
-% meth_args{1} = [];
-% meth_args{1} = {eye(3)*0.0001,  blkdiag(eye(3)*1,eye(3)*0.001);};
-% meth_args{3} = {eye(3), eye(3)*0.001};
-% meth_args{4} = [];
-% meth_args{5} = {eye(3)*0.001, eye(3)};
-% meth_args{6} = {eye(3), eye(3)*0.001};
+for i = 1:7
+    k = 1*10^(i-5);
+    meth_args{i} = {blkdiag(diag([1 1 0.1]*1e-4), eye(3)*1e-5, eye(3)*k), ...
+        blkdiag(eye(3)*1e2,eye(3)*1e2)};
+    %meth_args{i} = {k*eye(3)*1e-8, k*eye(3)};
+end
 
-% meth_args{1} = {eye(3)*0.0001, eye(3)*100};
-% meth_args{2} = {eye(3)*0.0001, eye(3)*10};
+%meth_args{2} = {eye(6)*0.0001, blkdiag(eye(3)*10, eye(3)*0.001)};
 % meth_args{3} = {eye(3)*0.0001, eye(3)};
-% meth_args{4} = {eye(3)*0.001, eye(3)};
+%meth_args{3} = {eye(6)*0.001, eye(6)};
 % meth_args{5} = {eye(3)*0.01, eye(3)};
-% meth_args{6} = {eye(3)*0.1, eye(3)};
+%meth_args{4} = {eye(6)*0.1, eye(6)};
 
 
 
-states = {};
-covars = {};
-mse = {};
-total_mse = {};
+states = {}; covars = {}; mse = {}; total_mse = {};
 
 for data_idx = data_idxs
     for meth_idx = 1:length(meths)
@@ -55,7 +51,7 @@ for data_idx = data_idxs
         data = datas{data_idx};
         time = times{data_idx};
         meth = meths{meth_idx};
-        if strcmp(class(meth_args{meth_idx}),'cell')
+        if iscell(meth_args{meth_idx})
             [states{data_idx, meth_idx}, covars{data_idx, meth_idx}] = meth(data, time, meth_args{meth_idx}{1}, meth_args{meth_idx}{2});
         else
             [states{data_idx, meth_idx}, covars{data_idx, meth_idx}] = meth(data, time);
