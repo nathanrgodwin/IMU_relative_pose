@@ -48,14 +48,35 @@ KM = zeros(n_state_vect,n_meas,n_steps); % kalman gain
 Y = zeros(n_state,n_sigma_points);%sigma points for x_ap
 Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 
+%old (Saturday)
+% if nargin < 4
+%     %noise covariances. assumed diagonal
+%     %orientation, process noise will be in rot vel perturbations converted to quats
+%     q = .001;
+%     r = 1;
+%     Q = q*eye(n_state_vect);
+%     R = r*eye(n_meas);
+% end
+
+%another old
+% if nargin < 4
+%     %noise covariances. assumed diagonal
+%     %orientation, process noise will be in rot vel perturbations converted to quats
+%     q = 1e-8;
+%     r = 1e0;
+%     Q = q*eye(n_state_vect);
+%     R = r*eye(n_meas);
+% end
+
 if nargin < 4
     %noise covariances. assumed diagonal
     %orientation, process noise will be in rot vel perturbations converted to quats
-    q = .001;
-    r = 1;
+    q = 1e-12;
+    r = 1e-4;
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
 end
+
 
 %weights for averaging
 alpha_mu = 0; %or 0

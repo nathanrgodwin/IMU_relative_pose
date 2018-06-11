@@ -1,0 +1,61 @@
+method:Integration_hard_bias	totalmse:8.081218e-01
+method:MADG_hard_bias	totalmse:1.144239e+00
+method:EKF4_hard_bias	totalmse:9.383967e-01
+method:UKF4_hard_bias	totalmse:9.727032e-01
+method:UKF7_hard_bias	totalmse:8.061053e-01
+method:UKF4mag_hard_bias	totalmse:3.012698e-01
+
+dataset 2: TStick_Test02_Trial1.csv	avg_mse:1.307952e-01
+dataset 7: TStick_Test04_Trial1.csv	avg_mse:2.104305e-01
+dataset 10: TStick_Test05_Trial1.csv	avg_mse:4.375786e+00
+dataset 15: TStick_Test07_Trial1.csv	avg_mse:2.042312e-01
+dataset 18: TStick_Test08_Trial1.csv	avg_mse:2.000323e-02
+dataset 27: TStick_Test11_Trial1.csv	avg_mse:2.959043e-02
+
+dataset 2: TStick_Test02_Trial1.csv
+method:Integration_hard_bias	totalmse:1.635035e-02
+method:MADG_hard_bias	totalmse:6.986772e-01
+method:EKF4_hard_bias	totalmse:2.951435e-02
+method:UKF4_hard_bias	totalmse:2.069018e-02
+method:UKF7_hard_bias	totalmse:4.919271e-03
+method:UKF4mag_hard_bias	totalmse:1.461981e-02
+
+dataset 7: TStick_Test04_Trial1.csv
+method:Integration_hard_bias	totalmse:1.485499e-02
+method:MADG_hard_bias	totalmse:7.737915e-01
+method:EKF4_hard_bias	totalmse:7.271844e-02
+method:UKF4_hard_bias	totalmse:1.012825e-01
+method:UKF7_hard_bias	totalmse:3.635333e-02
+method:UKF4mag_hard_bias	totalmse:2.635824e-01
+
+dataset 10: TStick_Test05_Trial1.csv
+method:Integration_hard_bias	totalmse:4.791398e+00
+method:MADG_hard_bias	totalmse:5.040939e+00
+method:EKF4_hard_bias	totalmse:5.489396e+00
+method:UKF4_hard_bias	totalmse:5.693095e+00
+method:UKF7_hard_bias	totalmse:4.575014e+00
+method:UKF4mag_hard_bias	totalmse:6.648708e-01
+
+dataset 15: TStick_Test07_Trial1.csv
+method:Integration_hard_bias	totalmse:1.679373e-02
+method:MADG_hard_bias	totalmse:2.194585e-01
+method:EKF4_hard_bias	totalmse:2.975667e-02
+method:UKF4_hard_bias	totalmse:1.540365e-02
+method:UKF7_hard_bias	totalmse:2.039459e-01
+method:UKF4mag_hard_bias	totalmse:7.400290e-01
+
+dataset 18: TStick_Test08_Trial1.csv
+method:Integration_hard_bias	totalmse:7.532929e-04
+method:MADG_hard_bias	totalmse:1.458856e-02
+method:EKF4_hard_bias	totalmse:4.012493e-04
+method:UKF4_hard_bias	totalmse:1.222163e-04
+method:UKF7_hard_bias	totalmse:3.158303e-03
+method:UKF4mag_hard_bias	totalmse:1.009957e-01
+
+dataset 27: TStick_Test11_Trial1.csv
+method:Integration_hard_bias	totalmse:8.580753e-03
+method:MADG_hard_bias	totalmse:1.179814e-01
+method:EKF4_hard_bias	totalmse:8.593282e-03
+method:UKF4_hard_bias	totalmse:5.625357e-03
+method:UKF7_hard_bias	totalmse:1.324095e-02
+method:UKF4mag_hard_bias	totalmse:2.352078e-02

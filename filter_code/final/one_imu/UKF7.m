@@ -6,7 +6,7 @@ end
 
 %measurements AxAyAz from I IMU
 z = data(1:6,:); %measurements
-% u = data(4:6,:);%data from 276a
+% u = data(4:6,:);
 
 %% states
 % 1: G_R_I = 4x1 quat

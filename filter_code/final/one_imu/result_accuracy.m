@@ -25,6 +25,26 @@ for data_idx = data_idxs
     temp_names = {'truth'};
     for i = 1:length(meths)
         temp_names{i+1} = func2str(meths{i});
+        %temp_names{i+1} = temp_names{i+1}(1:end-10);
     end
     legend(temp_names)
 end
+
+%% 
+% %adds labels to plot afterward
+
+subplot(3,1,1)
+ylabel('x (rad)');
+%title('Set 1: Stationary, after removing bias');
+%title('set27: TStick_Test11_Trial1');
+%title('Fast Rotation around X');
+%title('Translation along X');
+%title('Slow free rotation, after removing bias');
+title('Fast Rotation around Z');
+
+subplot(3,1,2)
+ylabel('y (rad)');
+subplot(3,1,3)
+
+ylabel('z (rad)');
+xlabel('time(sec)');

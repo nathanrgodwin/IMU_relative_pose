@@ -7,10 +7,10 @@ datas = {};
 times = {};
 truths = {};
 data_idxs = 1:num_data;
-% data_idxs = [1,2,3,9,11,12,13,14,15];
+%data_idxs = [1,2,3,9,11,12,13,14,15];
 
 %data_idxs = [1,2,3,4,5,7,8,9,12, 15, 20, 27:29];
-data_idxs = [2];
+data_idxs = [1];
 for data_idx = data_idxs
     names{data_idx} = tstick_struct(data_idx).name;
     temp = csvread(strcat(tstick_struct(data_idx).folder, '/', tstick_struct(data_idx).name), 2, 0);
@@ -23,7 +23,7 @@ end
 % meths = {@EKF4,@EKF4,@EKF4,@UKF4,@UKF4};
 % meths = {@EKF4mag, @EKF4, @EKF4, @EKF4, @EKF4};
 % meths = {@EKF4mag,@EKF4mag, @EKF4};
-meths = {@Integration,@UKF4bias};
+meths = {@Integration,@MADG,@EKF4,@UKF4,@UKF7,@UKF4mag};
 
 meth_args = {};
 meth_args{length(meths)} = [];

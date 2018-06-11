@@ -1,0 +1,14 @@
+method:Integration	totalmse:1.181172e-02
+method:MADG	totalmse:3.800273e-03
+method:EKF4	totalmse:3.538235e-03
+method:UKF4	totalmse:5.362436e-04
+method:UKF7	totalmse:4.456705e-04
+method:UKF4mag	totalmse:2.017302e-05
+dataset 1: TStick_Test01_Static.csv	avg_mse:1.209139e-01
+dataset 1: TStick_Test01_Static.csv
+method:Integration	totalmse:7.087035e-02
+method:MADG	totalmse:2.280164e-02
+method:EKF4	totalmse:2.122941e-02
+method:UKF4	totalmse:3.217462e-03
+method:UKF7	totalmse:2.674023e-03
+method:UKF4mag	totalmse:1.210381e-04

@@ -1,0 +1,61 @@
+method:Integration	totalmse:9.986245e-01
+method:MADG	totalmse:1.237273e+00
+method:EKF4	totalmse:1.048870e+00
+method:UKF4	totalmse:1.039820e+00
+method:UKF7	totalmse:8.309471e-01
+method:UKF4mag	totalmse:4.717293e-01
+
+dataset 2: TStick_Test02_Trial1.csv	avg_mse:3.231828e-01
+dataset 7: TStick_Test04_Trial1.csv	avg_mse:2.836260e-01
+dataset 10: TStick_Test05_Trial1.csv	avg_mse:4.731797e+00
+dataset 15: TStick_Test07_Trial1.csv	avg_mse:2.307541e-01
+dataset 18: TStick_Test08_Trial1.csv	avg_mse:2.476097e-02
+dataset 27: TStick_Test11_Trial1.csv	avg_mse:3.314317e-02
+
+dataset 2: TStick_Test02_Trial1.csv
+method:Integration	totalmse:5.417319e-01
+method:MADG	totalmse:8.198424e-01
+method:EKF4	totalmse:4.068922e-01
+method:UKF4	totalmse:1.006506e-01
+method:UKF7	totalmse:3.278672e-02
+method:UKF4mag	totalmse:3.719265e-02
+
+dataset 7: TStick_Test04_Trial1.csv
+method:Integration	totalmse:1.318662e-01
+method:MADG	totalmse:7.773880e-01
+method:EKF4	totalmse:2.908790e-01
+method:UKF4	totalmse:2.104480e-01
+method:UKF7	totalmse:1.128842e-01
+method:UKF4mag	totalmse:1.782907e-01
+
+dataset 10: TStick_Test05_Trial1.csv
+method:Integration	totalmse:5.238751e+00
+method:MADG	totalmse:5.439567e+00
+method:EKF4	totalmse:5.502686e+00
+method:UKF4	totalmse:5.854430e+00
+method:UKF7	totalmse:4.515945e+00
+method:UKF4mag	totalmse:1.839401e+00
+
+dataset 15: TStick_Test07_Trial1.csv
+method:Integration	totalmse:4.516172e-02
+method:MADG	totalmse:2.284403e-01
+method:EKF4	totalmse:7.467686e-02
+method:UKF4	totalmse:6.410944e-02
+method:UKF7	totalmse:3.025036e-01
+method:UKF4mag	totalmse:6.696325e-01
+
+dataset 18: TStick_Test08_Trial1.csv
+method:Integration	totalmse:2.421675e-02
+method:MADG	totalmse:2.197635e-02
+method:EKF4	totalmse:1.078980e-02
+method:UKF4	totalmse:3.059907e-03
+method:UKF7	totalmse:7.262448e-03
+method:UKF4mag	totalmse:8.126060e-02
+
+dataset 27: TStick_Test11_Trial1.csv
+method:Integration	totalmse:1.001939e-02
+method:MADG	totalmse:1.364232e-01
+method:EKF4	totalmse:7.294537e-03
+method:UKF4	totalmse:6.221743e-03
+method:UKF7	totalmse:1.430119e-02
+method:UKF4mag	totalmse:2.459897e-02

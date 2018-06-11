@@ -1,0 +1,14 @@
+method:Integration_hard_bias	totalmse:6.072689e-06
+method:MADG_hard_bias	totalmse:1.477725e-02
+method:EKF4_hard_bias	totalmse:1.982254e-06
+method:UKF4_hard_bias	totalmse:8.394272e-07
+method:UKF7_hard_bias	totalmse:2.780500e-07
+method:UKF4mag_hard_bias	totalmse:1.401062e-06
+dataset 1: TStick_Test01_Static.csv	avg_mse:8.872695e-02
+dataset 1: TStick_Test01_Static.csv
+method:Integration_hard_bias	totalmse:3.643613e-05
+method:MADG_hard_bias	totalmse:8.866351e-02
+method:EKF4_hard_bias	totalmse:1.189352e-05
+method:UKF4_hard_bias	totalmse:5.036563e-06
+method:UKF7_hard_bias	totalmse:1.668300e-06
+method:UKF4mag_hard_bias	totalmse:8.406369e-06
