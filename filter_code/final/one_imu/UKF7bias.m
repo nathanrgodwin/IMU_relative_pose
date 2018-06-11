@@ -56,7 +56,7 @@ if nargin < 4
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
     
-    Q = blkdiag(diag([1 1 0.1]*1e-4), eye(3)*1e-5, eye(3));
+    Q = blkdiag(diag([1 1 1]*1e-4), eye(3)*1e-5, eye(3));
     
     R = blkdiag(eye(3)*1e2, eye(3)*1e2);
     
@@ -73,7 +73,7 @@ for itr = 1: n_steps-1
 %     figure(1)
 %     surf(X); xlabel('x');ylabel('y');title('X');
     for i_sp=1:n_sigma_points
-        Y(1:4,i_sp) = quatproduct(X(:,i_sp), aa2quat(X(5:7,i_sp))*dt);
+        Y(1:4,i_sp) = quatproduct(X(1:4,i_sp), aa2quat(X(5:7,i_sp))*dt);
         Y(5:10,i_sp) = X(5:10,i_sp);
     end 
 %     figure(2)
