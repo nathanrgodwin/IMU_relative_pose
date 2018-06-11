@@ -7,6 +7,8 @@ b = [...
   -0.026163936432742;
    0.400463492343292;
   -0.901099835848857];
+
+b = data(7:9,1);
 %% states
 % 1: G_R_I = 4x1 quat
 
@@ -47,12 +49,11 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 %noise covariances. assumed diagonal
 %orientation, process noise will be in rot vel perturbations converted to quats
 
-%following worked for 276A
 if nargin < 4
     q = .001;
-    r = .01*9.8^2;
+    r = 1;
     Q = q*eye(n_state_vect);
-    R = r*eye(n_meas);
+    R = blkdiag(r*eye(3),.1*r*eye(3));
 end
 
 %according to stationary est: for R

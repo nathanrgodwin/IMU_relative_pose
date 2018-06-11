@@ -1,11 +1,15 @@
-function [x_hatM, P_hatM] = UKF4(data,t,Q,R)
+function [x_hatM, P_hatM] = UKF4_hard_bias(data,t,Q,R)
 
 if size(data,1) > 8
     data = data(1:6,:);
 end
 %measurements AxAyAz from I IMU
-z = data(1:3,:); %measurements
-u = data(4:6,:);
+mean_a = [-0.0119; 0.1941; 9.7937];
+mean_w = [0.0037; -0.0023; 0.0010];
+
+z = data(1:3,:) - mean_a; %measurements
+z(3,:) = z(3,:) + 9.81;
+u = data(4:6,:) - mean_w;
 
 %% states
 % 1: G_R_I = 4x1 quat
@@ -47,8 +51,8 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 if nargin < 4
     %noise covariances. assumed diagonal
     %orientation, process noise will be in rot vel perturbations converted to quats
-    q = 1e-8;
-    r = 1e0;
+    q = .001;
+    r = 1;
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
 end

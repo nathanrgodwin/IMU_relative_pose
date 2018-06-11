@@ -1,4 +1,4 @@
-function [x_hatM, P_hatM] = UKF4(data,t,Q,R)
+function [x_hatM, P_hatM] = UKF4bias(data,t,Q,R)
 
 if size(data,1) > 8
     data = data(1:6,:);
@@ -10,7 +10,7 @@ u = data(4:6,:);
 %% states
 % 1: G_R_I = 4x1 quat
 
-n_state = 4;
+n_state = 7;
 n_state_vect = n_state - 1; %since 1 quat --> vect
 n_sigma_points = n_state_vect*2+1;
 n_meas = 3;
@@ -21,7 +21,7 @@ g_quat = [0;0;0;9.8];%gravity vector, units of m/s^2
 %M indicates storage variable
 %hat indicates estimate
 x_hatM = zeros(n_state,n_steps);
-x_hatM(:,1) = [1 0 0 0];
+x_hatM(1:4,1) = [1 0 0 0];
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
 P_hatM(:,:,1) = .0001*eye(n_state_vect);
 
@@ -47,8 +47,8 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 if nargin < 4
     %noise covariances. assumed diagonal
     %orientation, process noise will be in rot vel perturbations converted to quats
-    q = 1e-8;
-    r = 1e0;
+    q = .001;
+    r = .01*9.8^2;
     Q = q*eye(n_state_vect);
     R = r*eye(n_meas);
 end
@@ -64,7 +64,8 @@ for itr = 1: n_steps-1
     %     figure(1)
     %     surf(X); xlabel('x');ylabel('y');title('X');
     for i_sp=1:n_sigma_points
-        Y(:,i_sp) = quatproduct(X(:,i_sp), aa2quat(u(:,itr)*dt));
+        bias = X(5:7,i_sp);
+        Y(1:4,i_sp) = quatproduct(X(:,i_sp), aa2quat((u(:,itr)+bias)*dt));
     end
     %     figure(2)
     %     surf(Y); xlabel('x');ylabel('y');title('Y');
@@ -83,10 +84,12 @@ for itr = 1: n_steps-1
     P_nu = P_zz + R;
     P_xz = cross_stats(W_prime,Z,alpha_mu, alpha_cov);
     K = P_xz*P_nu^-1;
-    
+    Knu = K*nu;
     % x_k|k = x_ap + K*nu
     
-    x_hat = quatproduct(x_ap, aa2quat(K*nu));
+    x_hat(1:4) = quatproduct(x_ap(1:4), aa2quat(Knu(1:3)));
+    x_hat(5:7) = x_ap(5:7) + Knu(4:6);
+    
     P_hat = P_ap - K*P_nu'*K';
     
     if min(eig(P_hat)) < 0
