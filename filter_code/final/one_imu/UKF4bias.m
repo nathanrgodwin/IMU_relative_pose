@@ -10,7 +10,7 @@ u = data(4:6,:);
 %% states
 % 1: G_R_I = 4x1 quat
 
-n_state = 7;
+n_state = 7;% 4 plus 3 accel bias
 n_state_vect = n_state - 1; %since 1 quat --> vect
 n_sigma_points = n_state_vect*2+1;
 n_meas = 3;
@@ -23,7 +23,7 @@ g_quat = [0;0;0;9.8];%gravity vector, units of m/s^2
 x_hatM = zeros(n_state,n_steps);
 x_hatM(1:4,1) = [1 0 0 0];
 P_hatM = zeros(n_state_vect,n_state_vect,n_steps);
-P_hatM(:,:,1) = .0001*eye(n_state_vect);
+P_hatM(:,:,1) = blkdiag(.0001*eye(3),.1*eye(3));
 
 % x t|t-1 . ap = 'a priori', after prediction step
 x_apM = zeros(n_state,n_steps);
@@ -49,7 +49,7 @@ if nargin < 4
     %orientation, process noise will be in rot vel perturbations converted to quats
     q = .001;
     r = .01*9.8^2;
-    Q = q*eye(n_state_vect);
+    Q = blkdiag(q*eye(3),.03*eye(3));
     R = r*eye(n_meas);
 end
 
@@ -64,16 +64,18 @@ for itr = 1: n_steps-1
     %     figure(1)
     %     surf(X); xlabel('x');ylabel('y');title('X');
     for i_sp=1:n_sigma_points
-        bias = X(5:7,i_sp);
-        Y(1:4,i_sp) = quatproduct(X(:,i_sp), aa2quat((u(:,itr)+bias)*dt));
+        Y(1:4,i_sp) = quatproduct(X(1:4,i_sp), aa2quat(u(:,itr)*dt));
     end
+    Y(5:7,:) = X(5:7,:);
     %     figure(2)
     %     surf(Y); xlabel('x');ylabel('y');title('Y');
     [x_ap, P_ap, W_prime] = Y_stats4(Y,alpha_mu,alpha_cov,x_hatM(:,itr));% stats from Y. W_prime: Y with x_ap subtracted from each. W_prime in vector space
     
     %UPDATE
     for i_sp = 1:n_sigma_points
-        tempg = quatproduct(g_quat,Y(:,i_sp));
+        g_quat2  = g_quat;
+        g_quat2(2:4,1) = g_quat(2:4,1)+ Y(5:7,i_sp); %adding bias
+        tempg = quatproduct(g_quat2,Y(:,i_sp));
         temp = quatproduct([Y(1,i_sp);-Y(2:4,i_sp)],tempg);
         Z(:,i_sp) = temp(2:4);
     end
