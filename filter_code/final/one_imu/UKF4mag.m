@@ -3,10 +3,10 @@ function [x_hatM, P_hatM] = UKF4mag(data,t,Q,R)
 %measurements AxAyAz from I IMU
 z = [data(1:3,:);data(7:9,:)]; %measurements
 u = data(4:6,:);%data from 276a
-b = [...
-  -0.026163936432742;
-   0.400463492343292;
-  -0.901099835848857];
+% b = [...
+%   -0.026163936432742;
+%    0.400463492343292;
+%   -0.901099835848857];
 
 b = data(7:9,1);
 %% states
@@ -50,10 +50,12 @@ Z = zeros(n_meas,n_sigma_points);%sigma points for z_ap
 %orientation, process noise will be in rot vel perturbations converted to quats
 
 if nargin < 4
-    q = .001;
-    r = 1;
+    q = 1e-8;
+    q = 0.0001;
+    r = 1e0;
     Q = q*eye(n_state_vect);
     R = blkdiag(r*eye(3),.1*r*eye(3));
+    
 end
 
 %according to stationary est: for R
