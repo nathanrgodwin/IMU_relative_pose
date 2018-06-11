@@ -2,8 +2,9 @@ function [x_hatM, SigmaM] = EKF4(data,t,Win,Vin)
 % EKF_read_baseline_data;
 
 if nargin<4
-    W = eye(3) * 1e-4;
-    V = eye(3) * 1e0;
+    %W = eye(3) * 1e-4; V = eye(3) * 1e0;
+    W = eye(3) * 1e-8; 
+    V = eye(3) * 1e3;
 else
     W = Win;
     V = Vin;

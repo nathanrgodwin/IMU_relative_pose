@@ -5,9 +5,13 @@ function plotMSE(path)
     for i = 1:size(mses, 1)
         figure
         mse = reshape(mses(i,:),10,10)';
-        contour([1:10:100], [1:10:100]*0.0001, mse);
+        surf(mse);
+        xticklabels(10.^((1:10)-5));
+        yticklabels(1e-8*(10.^((1:10)-5)));
         xlabel('R scale');
         ylabel('Q scale');
+        set(gca, 'ZScale', 'log')
         title(num2str(i));
+        colorbar
     end
 end
