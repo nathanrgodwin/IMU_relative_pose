@@ -1,7 +1,7 @@
 fc = 0;
 
 style = {'--',':','-.','-'};
-style = [style style style style]
+style = [style style style style];
 for data_idx = data_idxs
     fc=fc+1;    figure();
     temp_state = truths{data_idx};
